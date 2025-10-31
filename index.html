@@ -44,6 +44,12 @@
             --border-radius: 28px;
             --transition-speed: 0.4s;
             --member-color: #4287f5; /* Blue color for members */
+            
+            /* [NEW] Auth-Specific Variables for High-Security Look */
+            --auth-panel-radius: 10px 40px 10px 40px; /* Asymmetric Bevel */
+            --auth-input-radius: 8px; /* Sharper input corners */
+            --auth-glow: 0 0 10px rgba(255, 195, 0, 0.8), 0 0 20px rgba(255, 195, 0, 0.5);
+            --auth-shadow-dark: 0 15px 50px rgba(0, 0, 0, 0.9);
         }
 
         /* --- General & Body Styling --- */
@@ -345,7 +351,7 @@
         .sidebar-action-list button.about-btn i { color: var(--tertiary-accent); }
         .sidebar-action-list button.security-btn i { color: var(--primary-accent); }
 
-        /* --- Content Panel Component (High-Quality Glassmorphism) - Kept as is --- */
+        /* --- Content Panel Component (High-Quality Glassmorphism) - Kept for general app content --- */
         .content-panel { 
             background: var(--surface-bg); 
             border: 1px solid var(--surface-border); 
@@ -375,75 +381,143 @@
             border-bottom: 2px solid var(--surface-border); 
         }
 
-        /* --- Auth Pages (Polished) --- */
+        /* --- [HIGH SECURITY LOOK] Auth Pages --- */
         #auth-container { display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
         #auth-container.active { display: flex; }
         .auth-form { width: 100%; max-width: 450px; }
+        
+        /* OVERRIDE: High Security Panel Style */
+        .auth-form .content-panel {
+            /* NEW SECURITY LOOK STYLES: Angular, Vault-like */
+            border-radius: var(--auth-panel-radius); /* Asymmetric Bevel */
+            border: 2px solid var(--primary-accent); /* Stronger Border */
+            box-shadow: var(--auth-shadow-dark); 
+            background: rgba(4, 8, 28, 0.85); /* Less translucent, more vault-like */
+            backdrop-filter: blur(5px); /* Reduce blur */
+            -webkit-backdrop-filter: blur(5px);
+            padding: 40px; /* Increase padding for a bolder feel */
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .auth-form .content-panel:hover {
+            transform: translateY(-5px); 
+            box-shadow: 0 15px 60px rgba(0, 0, 0, 0.9), var(--auth-glow);
+        }
+
+        /* OVERRIDE: Icon Glow */
         .auth-icon { 
-            font-size: 6em; 
-            color: var(--primary-accent); 
-            text-shadow: 0 0 30px rgba(255, 195, 0, 0.7); 
-            margin-bottom: 30px; 
-            animation: auth-icon-float 6s ease-in-out infinite; 
-            text-align: center; 
+            font-size: 6.5em; 
+            text-shadow: 0 0 40px rgba(255, 195, 0, 1), 0 0 80px rgba(255, 195, 0, 0.5); /* Super strong glow */
+            margin-bottom: 40px; 
+            animation: auth-icon-float 6s ease-in-out infinite, pulse-glow-strong 1.5s infinite alternate; 
             background: linear-gradient(45deg, var(--tertiary-accent), var(--primary-accent));
             -webkit-background-clip: text; 
             background-clip: text; 
             -webkit-text-fill-color: transparent; 
         }
-        @keyframes auth-icon-float { 0%, 100% { transform: translateY(0); text-shadow: 0 0 30px rgba(255, 195, 0, 0.7); } 50% { transform: translateY(-15px); text-shadow: 0 0 50px rgba(255, 195, 0, 0.9); } }
-        .auth-form h2 { text-align: center; font-weight: 800; font-size: 3em; margin-bottom: 30px; background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .input-group { position: relative; margin-bottom: 25px; }
-        .input-group i.fa-solid { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); transition: color var(--transition-speed) ease; }
-        .input-group .toggle-password { 
-            left: auto; right: 20px; cursor: pointer; color: var(--text-secondary); 
-            transition: color 0.3s ease; 
+        @keyframes pulse-glow-strong {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.05); opacity: 1; }
         }
-        .input-group .toggle-password:hover {
-            color: var(--primary-accent); /* Highlight on hover for better UX */
+        @keyframes auth-icon-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        
+        /* OVERRIDE: Header/Title (Changed to center the auth title) */
+        .auth-form h2 { 
+            text-align: center; /* ALIGNMENT CHANGE: Center the header/title */
+            font-weight: 800; 
+            font-size: 3.5em; /* Bigger Title */
+            margin-bottom: 40px; /* More space */
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary-accent);
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent)); 
+            -webkit-background-clip: text; 
+            background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5); 
+        }
+
+        /* OVERRIDE: Input Fields (MODIFIED for icon swap) */
+        .input-group { position: relative; margin-bottom: 30px; }
+        /* Static Icon (Lock/Envelope) - MOVED TO RIGHT */
+        .input-group i.fa-solid { 
+            position: absolute; 
+            right: 25px; /* MOVED TO RIGHT */
+            left: auto;  /* Ensure it's not fighting 'left: 25px' */
+            top: 50%; transform: translateY(-50%); 
+            color: var(--text-secondary); transition: color var(--transition-speed) ease; 
+            font-size: 1.2em;
+            /* Ensure the toggle doesn't inherit these if it is a .fa-solid */
+        }
+        /* Password Toggle Icon - MOVED TO LEFT */
+        .input-group .toggle-password { 
+            position: absolute; /* Re-add to ensure proper positioning */
+            left: 25px; /* MOVED TO LEFT */
+            right: auto; 
+            top: 50%; transform: translateY(-50%); /* Re-add for centering */
+            cursor: pointer; color: var(--text-secondary); 
+            transition: color 0.3s ease; 
+            z-index: 2; /* Ensure it's above the input text */
         }
         .input-group input, .modal-content select { 
+            /* Changed to accommodate static icon on RIGHT (default) */
             width: 100%; 
-            padding: 18px 20px 18px 55px; 
-            border: 1px solid var(--surface-border); 
-            border-radius: 18px; 
-            background-color: var(--surface-bg-darker); 
+            padding: 22px 60px 22px 20px; /* Increased right padding for static icon */
+            border: 2px solid var(--surface-border); 
+            border-radius: var(--auth-input-radius); 
+            background-color: var(--background-secondary); 
             color: var(--text-primary); 
             font-family: var(--font-family); 
             font-size: 1em; 
             transition: all var(--transition-speed) ease; 
         }
         .input-group input[type="password"] {
-             padding-right: 55px; /* Space for the toggle icon */
+             /* Added left padding for the toggle icon (now on the left) */
+             padding-left: 60px; 
+             padding-right: 60px; /* Keep right padding for the static icon */
+        }
+        /* Make sure other inputs also have the correct padding */
+        .input-group input:not([type="password"]) {
+             padding-left: 20px; /* No toggle icon on the left */
         }
         .input-group input::placeholder { color: var(--text-secondary); opacity: 0.8; }
         .input-group input:focus { 
+            /* System Scan/Access Look */
             outline: none; 
             border-color: var(--primary-accent); 
-            box-shadow: 0 0 25px rgba(255, 195, 0, 0.6); 
-            background-color: rgba(0,0,0,0.5); 
+            box-shadow: 0 0 30px rgba(255, 195, 0, 0.8), inset 0 0 5px rgba(255, 195, 0, 0.4); /* Inset for depth */
+            background-color: var(--background-primary); 
         }
         .input-group input:focus ~ i.fa-solid { color: var(--primary-accent); }
+        
+        /* OVERRIDE: Buttons (Kept as is) */
         .btn { 
+            /* Angular/Geometric Button */
             display: inline-flex; justify-content: center; align-items: center; 
-            padding: 20px; border: none; border-radius: 18px; 
+            padding: 22px; /* Bigger button */
+            border: none; 
+            border-radius: 12px 0 18px 0; /* Asymmetric, angular look */
             color: var(--text-on-accent); 
-            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent)); 
-            background-size: 200% auto;
-            font-size: 1.1em; font-weight: 700; 
+            background: linear-gradient(90deg, #B8860B, #FFC300, #B8860B); /* Horizontal scan effect gradient */
+            background-size: 300% auto;
+            font-size: 1.2em; /* Bigger text */
+            font-weight: 700; 
             cursor: pointer; 
             transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); 
             position: relative; overflow: hidden; 
-            box-shadow: 0 8px 30px -8px rgba(255, 195, 0, 0.4); 
-            text-transform: uppercase; letter-spacing: 0.5px; text-decoration: none; width: auto; 
+            box-shadow: 0 8px 30px -8px rgba(255, 195, 0, 0.5); 
+            text-transform: uppercase; letter-spacing: 1px; text-decoration: none; width: auto; 
+            border: 2px solid var(--tertiary-accent);
         }
         .btn.full-width { width: 100%; }
         .btn:hover:not(:disabled) { 
+            /* Faster, more aggressive hover */
             transform: translateY(-5px) scale(1.01); 
-            box-shadow: 0 15px 40px -8px rgba(255, 195, 0, 0.5), var(--shadow-glow); 
-            background-position: right center; /* Shift gradient on hover */
+            box-shadow: 0 15px 40px -8px rgba(255, 195, 0, 0.8), var(--auth-glow); 
+            background-position: right center; 
         }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: translateY(0); box-shadow: none; background: var(--background-secondary); }
+        /* End High Security Look Overrides */
+
+
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: translateY(0); box-shadow: none; background: var(--background-secondary); border: 2px solid var(--surface-border); }
         .btn .btn-text { transition: opacity 0.2s ease; }
         .btn .spinner-sm { position: absolute; width: 24px; height: 24px; border: 3px solid rgba(0,0,0,0.3); border-top-color: var(--text-on-accent); border-radius: 50%; animation: spin-loader 0.8s linear infinite; opacity: 0; transition: opacity 0.2s ease; }
         .btn.loading .btn-text { opacity: 0; }
@@ -466,6 +540,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             border-radius: 14px; 
+            border: none; /* Remove angular border for internal buttons */
         }
         .btn-buy { background: linear-gradient(45deg, var(--success-color), #4ade80); color: white; box-shadow: 0 0 25px rgba(16, 185, 129, 0.5); }
         .btn-sell { background: linear-gradient(45deg, var(--danger-color), #f87171); color: white; box-shadow: 0 0 25px rgba(239, 68, 68, 0.5); }
@@ -478,7 +553,7 @@
         }
         /* END MODIFIED Button Styles */
 
-        /* --- Bottom Navigation Bar (Floating Dock) - Kept as is --- */
+        /* --- Bottom Navigation Bar (Floating Dock) - Kept as is) --- */
         .bottom-nav { 
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
             width: calc(100% - 40px); max-width: 500px; height: 85px; 
@@ -594,7 +669,9 @@
         /* Transaction colors remain distinct */
         .transaction-item.buy, .transaction-item.deposit, .transaction-item.plan_profit, .transaction-item.invite_bonus, .transaction-item.nft_profit { border-left-color: var(--success-color); }
         .transaction-item.sell, .transaction-item.withdrawal, .transaction-item.nft_purchase, .transaction-item.plan_invest { border-left-color: var(--danger-color); }
-        .transaction-item.pending { border-left-color: var(--warning-color); opacity: 0.8; }
+        .transaction-item.pending { border-left-color: var(--warning-color); opacity: 0.9; } /* Slightly less opacity for clarity */
+        .transaction-item.rejected { border-left-color: var(--danger-color); opacity: 0.7; } /* Faded red for rejected */
+        .transaction-item.approved { border-left-color: var(--success-color); opacity: 1.0; } /* Strong green for approved/completed */
         .transaction-item.bonus { border-left-color: var(--primary-accent); }
         .transaction-item .icon { font-size: 1.8em; width: 40px; text-align: center; margin-right: 15px; }
         .transaction-item.buy .icon, .transaction-item.deposit .icon, .transaction-item.plan_profit .icon, .transaction-item.invite_bonus .icon, .transaction-item.nft_profit .icon { color: var(--success-color); }
@@ -865,6 +942,7 @@
         .nft-timer { font-weight: 600; color: var(--warning-color); text-align: center; margin-bottom: 20px; font-size: 1.1em; }
         .nft-progress-bar { width: 100%; height: 12px; background-color: var(--background-secondary); border-radius: 6px; overflow: hidden; margin-top: 10px; }
         .nft-progress-bar-inner { height: 100%; background: linear-gradient(90deg, var(--primary-accent), var(--success-color)); border-radius: 6px; transition: width 0.5s ease; }
+        .nft-progress-bar-inner { height: 100%; background: linear-gradient(90deg, var(--primary-accent), var(--success-color)); border-radius: 6px; transition: width 0.5s ease; }
         .my-nft-card .btn { margin-top: 20px; }
 
         /* --- Modals, Toast, etc. (Kept as is) --- */
@@ -883,6 +961,14 @@
             overflow-y: auto;
         }
         .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+        /* Modal content panel inherits from the general .content-panel (rounded) not the auth panel (angular) */
+        .modal-content.content-panel { 
+            border-radius: var(--border-radius); 
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow-panel);
+            background: var(--surface-bg);
+            padding: 30px;
+        }
         .option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; background-color: var(--surface-bg-darker); padding: 8px; border-radius: 20px; }
         .option-btn { padding: 15px; border: none; background-color: transparent; color: var(--text-secondary); border-radius: 16px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; }
         .option-btn.active { background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent)); color: var(--text-on-accent); box-shadow: 0 5px 15px rgba(255, 195, 0, 0.4); }
@@ -916,7 +1002,19 @@
         @media (max-width: 480px) {
             .content-panel { padding: 25px 20px; }
             .content-panel h3 { margin-bottom: 20px; padding-bottom: 10px; font-size: 1.4em; }
-            .auth-form h2 { font-size: 2.8em; }
+            
+            /* Responsive Auth Overrides */
+            .auth-form .content-panel { padding: 30px; border-radius: 5px 30px 5px 30px; }
+            .auth-form h2 { font-size: 2.5em; text-align: center; margin-bottom: 30px;} 
+            .auth-icon { font-size: 5em; margin-bottom: 20px; }
+            /* Icon Swap Mobile Adjustment */
+            .input-group input, .modal-content select { padding: 18px 55px 18px 20px; } /* Right padding for static icon */
+            .input-group input:not([type="password"]) { padding-left: 20px; } /* No toggle, use default left padding */
+            .input-group input[type="password"] { padding-left: 55px; padding-right: 55px; } /* Toggle left, Static right */
+            .input-group i.fa-solid { left: auto; right: 20px; } /* Static icon right */
+            .input-group .toggle-password { left: 20px; right: auto; } /* Toggle icon left */
+            /* End Responsive Auth Overrides */
+
             .balance-display .amount { font-size: 3.5em; }
             .telegram-fab { width: 55px; height: 55px; right: 20px; bottom: 105px; font-size: 1.6em;}
             .profile-actions-grid { gap: 10px; }
@@ -1011,7 +1109,7 @@
             <section class="landing-section">
                 <div class="landing-section-header">
                     <h2>Perpetual Earning Engine</h2>
-                    <p>Activate our powerful earning engine with a one-time investment and earn a continuous profit for a lifetime. Non-working earning starts after 2 direct members join or by purchasing the highest plan.</p>
+                    <p>Activate our powerful earning engine with a one-time investment and earn a continuous profit for a lifetime. Only Plan 20 Pro offers an unconditional 5% daily earning.</p>
                 </div>
                 <div class="feature-grid">
                     <div class="feature-card">
@@ -1022,13 +1120,14 @@
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
                         <h3>Conditional Returns</h3>
-                        <p>Earn a minimum of 3% daily on your total investment once you activate the non-working system with 2 direct referrals.</p>
-                        <div class="highlight">3% or 5% Daily Profit (Lifetime)</div>
+                        <p>Most plans only allow earning from direct/indirect commissions. Purchase Plan 20 Pro for a guaranteed daily return.</p>
+                        <div class="highlight">0% Daily Profit (Unless Pro)</div>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-                        <h3>Auto-Earning Override</h3>
-                        <p>Purchase the final plan (Plan 20 Pro) to instantly unlock 5% daily earning without needing any referrals!</p>
+                        <h3>Pro-Earning Override</h3>
+                        <p>Purchase the final plan (Plan 20 Pro) to instantly unlock a massive 5% daily earning without needing any referrals!</p>
+                        <div class="highlight">Plan 20 Pro = 5% Daily Profit</div>
                     </div>
                 </div>
             </section>
@@ -1042,7 +1141,7 @@
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-cubes"></i></div>
                         <h3>Direct Block Commission</h3>
-                        <p>Earn a massive 50% commission on the first investment made by anyone you directly invite to the platform.</p>
+                        <p>Earn a massive 50% commission on the first investment made by anyone you directly invite to the platform. (Requires your own plan purchase first).</p>
                         <div class="highlight">50% Direct Bonus</div>
                     </div>
                     <div class="feature-card">
@@ -1064,66 +1163,65 @@
         </main>
     </div>
 
-    <!-- Authentication Container (Login/Register) -->
+    <!-- Authentication Container (Login/Register) - High Security Look Applied Here -->
     <div id="auth-container">
         <div id="login-page-container" class="auth-form">
-            <!-- UPDATED Auth Icon -->
+            <!-- Login Photo/Icon in Center -->
             <div class="auth-icon"><i class="fas fa-gem"></i></div>
             <div class="content-panel">
-                <h2>Golden Star Login</h2>
+                <h2>Access Login</h2>
                 <form id="login-form">
                     <div class="input-group">
-                        <input type="email" id="login-email" required placeholder="Email" autocomplete="email">
-                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="login-email" required placeholder="Email Address" autocomplete="email">
+                        <i class="fa-solid fa-envelope"></i> <!-- Static Icon (Right) -->
                     </div>
                     <div class="input-group">
-                        <input type="password" id="login-password" required placeholder="Password" autocomplete="current-password">
-                        <i class="fa-solid fa-lock"></i>
-                        <!-- MODIFIED EYE ICON CLASS -->
-                        <i class="fa-solid fa-eye toggle-password"></i>
+                        <!-- Toggle Icon (Left) and Static Icon (Right) in CSS -->
+                        <input type="password" id="login-password" required placeholder="Security Key" autocomplete="current-password">
+                        <i class="fa-solid fa-eye toggle-password"></i> <!-- Toggle Icon (Left) -->
+                        <i class="fa-solid fa-lock"></i> <!-- Static Icon (Right) -->
                     </div>
                     <button type="submit" class="btn full-width"><span class="btn-text">Login Securely</span><div class="spinner-sm"></div></button>
                 </form>
-                <!-- MODIFIED: Added Forgot Password Link -->
                 <p class="auth-switch" style="margin-top: 15px; text-align: right; margin-bottom: 0;">
                     <a href="#" id="show-forgot-password-link">Forgot Password?</a>
                 </p>
-                <p class="auth-switch">No account? <a href="#" id="show-register-link">Sign Up</a></p>
+                <p class="auth-switch">No security profile? <a href="#" id="show-register-link">Create Account</a></p>
             </div>
         </div>
         <div id="register-page-container" class="auth-form" style="display: none;">
-            <!-- UPDATED Auth Icon (Kept distinct) -->
+            <!-- Register Photo/Icon in Center -->
             <div class="auth-icon"><i class="fas fa-user-astronaut"></i></div>
             <div class="content-panel">
-                <h2>Golden Star Register</h2>
+                <h2>Profile Registration</h2>
                 <form id="register-form">
                     <div class="input-group">
                         <input type="text" id="register-username" required placeholder="Username" autocomplete="username">
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-user"></i> <!-- Static Icon (Right) -->
                     </div>
                     <div class="input-group">
                         <input type="email" id="register-email" required placeholder="Email" autocomplete="email">
-                        <i class="fa-solid fa-envelope"></i>
+                        <i class="fa-solid fa-envelope"></i> <!-- Static Icon (Right) -->
                     </div>
                     <div class="input-group">
-                        <input type="password" id="register-password" required placeholder="Password" autocomplete="new-password">
-                        <i class="fa-solid fa-lock"></i>
-                        <!-- MODIFIED EYE ICON CLASS -->
-                        <i class="fa-solid fa-eye toggle-password"></i>
+                        <!-- Toggle Icon (Left) and Static Icon (Right) in CSS -->
+                        <input type="password" id="register-password" required placeholder="New Security Key" autocomplete="new-password">
+                        <i class="fa-solid fa-eye toggle-password"></i> <!-- Toggle Icon (Left) -->
+                        <i class="fa-solid fa-lock"></i> <!-- Static Icon (Right) -->
                     </div>
                     <div class="input-group">
-                        <input type="password" id="register-repeat-password" required placeholder="Repeat Password" autocomplete="new-password">
-                        <i class="fa-solid fa-key"></i>
-                        <!-- MODIFIED EYE ICON CLASS -->
-                        <i class="fa-solid fa-eye toggle-password"></i>
+                        <!-- Toggle Icon (Left) and Static Icon (Right) in CSS -->
+                        <input type="password" id="register-repeat-password" required placeholder="Confirm Security Key" autocomplete="new-password">
+                        <i class="fa-solid fa-eye toggle-password"></i> <!-- Toggle Icon (Left) -->
+                        <i class="fa-solid fa-key"></i> <!-- Static Icon (Right) -->
                     </div>
                     <div class="input-group">
                         <input type="text" id="register-ref-code" placeholder="Invitation Code (Optional)" autocomplete="off">
-                        <i class="fa-solid fa-gift"></i>
+                        <i class="fa-solid fa-gift"></i> <!-- Static Icon (Right) -->
                     </div>
                     <button type="submit" class="btn full-width"><span class="btn-text">Create My Account</span><div class="spinner-sm"></div></button>
                 </form>
-                <p class="auth-switch">Have an account? <a href="#" id="show-login-link">Login</a></p>
+                <p class="auth-switch">Already established profile? <a href="#" id="show-login-link">Login</a></p>
             </div>
         </div>
     </div>
@@ -1195,10 +1293,13 @@
                 <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
                     <div class="stat-card"><span class="label">Total Investment</span><span class="value" id="plan-investment-value">$0.00</span></div>
                     <div class="stat-card"><span class="label">Daily Profit Rate</span><span class="value profit" id="plan-profit-rate">$0.00</span></div>
-                    <!-- NEW: Referral Progress for Non-Working Income -->
-                    <div class="stat-card"><span class="label">Active Refs for 3%</span><span class="value" id="plan-ref-progress">0 / 2</span></div>
-                    <div class="stat-card"><span class="label">Accumulated Profit</span><span class="value profit" id="plan-accumulated-profit">$0.000000</span></div>
+                    <!-- REMOVED Ref Progress stat card as it's no longer relevant for Plan Earning -->
                 </div>
+                <!-- NEW Stat Card for Accumulated Profit (Moved out of grid for better display) -->
+                 <div class="stat-card" style="grid-column: span 2; margin-top: 20px;">
+                    <div class="label">Accumulated Profit</div>
+                    <div class="value profit" id="plan-accumulated-profit" style="color: var(--success-color);">$0.000000</div>
+                 </div>
                 <div class="wallet-actions" style="margin-top: 25px;">
                     <button class="btn full-width" id="claim-plan-profit-btn" disabled style="flex-grow: 1;"><span class="btn-text"><i class="fas fa-hand-holding-dollar"></i> Claim Profit</span><div class="spinner-sm"></div></button>
                     <!-- NEW: Upgrade Plan Button -->
@@ -1211,7 +1312,7 @@
             <!-- New Plans Section (MODIFIED GRID CLASS) - Always visible for purchase/upgrade -->
             <div class="content-panel" id="marketing-plans-panel">
                 <h3>Perpetual Earning Plans</h3>
-                <p class="info-text" style="margin-bottom: 25px;">Available: <b id="plans-page-pkr-balance">PKR 0</b> | <b id="plans-page-usd-balance">$0.00</b>. Invest once for a 3% daily, lifetime return.</p>
+                <p class="info-text" style="margin-bottom: 25px;">Available: <b id="plans-page-pkr-balance">PKR 0</b> | <b id="plans-page-usd-balance">$0.00</b>. Only Plan 20 Pro offers 5% daily earnings.</p>
                 <div id="marketing-plans-container" class="plan-series-grid">
                     <!-- Plans will be populated by JS -->
                 </div>
@@ -1279,8 +1380,8 @@
                 <div class="balance-on-hold" id="wallet-on-hold-balance">On Hold (USD): $0.00</div>
                 <!-- MODIFIED BUTTONS STYLE/SIZE -->
                 <div class="wallet-actions">
-                    <button class="btn btn-buy" id="recharge-btn-modal"><i class="fas fa-plus-circle"></i>&nbsp; Recharge (PKR)</button>
-                    <button class="btn btn-sell" id="withdraw-btn-modal"><i class="fas fa-paper-plane"></i>&nbsp; Withdraw (PKR)</button>
+                    <button class="btn btn-buy" id="recharge-btn-modal" style="border-radius: 14px;"><i class="fas fa-plus-circle"></i>&nbsp; Recharge (PKR)</button>
+                    <button class="btn btn-sell" id="withdraw-btn-modal" style="border-radius: 14px;"><i class="fas fa-paper-plane"></i>&nbsp; Withdraw (PKR)</button>
                 </div>
             </div>
         </section>
@@ -1319,7 +1420,7 @@
             </div>
             <div class="content-panel invite-box">
                 <div class="icon"><i class="fas fa-cubes"></i></div>
-                <p>Share your link. You earn a one-time <b>50%</b> commission from your direct block's first investment and a one-time <b>3%</b> from indirect blocks up to 9 levels deep!</p>
+                <p>Share your link. You earn a one-time <b>50%</b> commission from your direct block's first investment and a one-time <b>3%</b> from indirect blocks up to 9 levels deep! <b>(A plan purchase is required to activate bonus earning)</b></p>
                 <div class="invite-code" id="invite-link-display">Generating...</div>
                 <button class="btn full-width" id="copy-invite-link-btn"><span class="btn-text"><i class="fas fa-copy"></i>&nbsp; Copy My Link</span></button>
             </div>
@@ -1352,16 +1453,14 @@
                 <h3>Change Password</h3>
                 <form id="change-password-form">
                     <div class="input-group">
-                        <input type="password" id="current-password" placeholder="Current Password" required autocomplete="current-password">
-                        <i class="fa-solid fa-key"></i>
-                        <!-- MODIFIED EYE ICON CLASS -->
-                        <i class="fa-solid fa-eye toggle-password"></i>
+                        <input type="password" id="current-password" placeholder="Current Security Key" required autocomplete="current-password">
+                        <i class="fa-solid fa-eye toggle-password"></i> <!-- Toggle Icon (Left) -->
+                        <i class="fa-solid fa-key"></i> <!-- Static Icon (Right) -->
                     </div>
                     <div class="input-group">
-                        <input type="password" id="new-password" placeholder="New Password" required autocomplete="new-password">
-                        <i class="fa-solid fa-lock"></i>
-                        <!-- MODIFIED EYE ICON CLASS -->
-                        <i class="fa-solid fa-eye toggle-password"></i>
+                        <input type="password" id="new-password" placeholder="New Security Key" required autocomplete="new-password">
+                        <i class="fa-solid fa-eye toggle-password"></i> <!-- Toggle Icon (Left) -->
+                        <i class="fa-solid fa-lock"></i> <!-- Static Icon (Right) -->
                     </div>
                     <button type="submit" class="btn full-width"><span class="btn-text">Change Password</span><div class="spinner-sm"></div></button>
                 </form>
@@ -1441,9 +1540,9 @@
                     </ul>
                     <div class="input-group">
                         <input type="number" placeholder="Amount (10-30)" class="nft-buy-amount" min="10" max="30">
-                        <i class="fa-solid fa-dollar-sign"></i>
+                        <i class="fa-solid fa-dollar-sign"></i> <!-- Static Icon (Right) -->
                     </div>
-                    <button class="btn btn-buy-nft" data-nft-id="bronze" data-min="10" data-max="30">
+                    <button class="btn btn-buy-nft" data-nft-id="bronze" data-min="10" data-max="30" style="border-radius: 14px;">
                         <span class="btn-text">Buy Now</span><div class="spinner-sm"></div>
                     </button>
                 </div>
@@ -1459,9 +1558,9 @@
                     </ul>
                     <div class="input-group">
                         <input type="number" placeholder="Amount (31-50)" class="nft-buy-amount" min="31" max="50">
-                        <i class="fa-solid fa-dollar-sign"></i>
+                        <i class="fa-solid fa-dollar-sign"></i> <!-- Static Icon (Right) -->
                     </div>
-                    <button class="btn btn-buy-nft" data-nft-id="silver" data-min="31" data-max="50">
+                    <button class="btn btn-buy-nft" data-nft-id="silver" data-min="31" data-max="50" style="border-radius: 14px;">
                         <span class="btn-text">Buy Now</span><div class="spinner-sm"></div>
                     </button>
                 </div>
@@ -1477,9 +1576,9 @@
                     </ul>
                     <div class="input-group">
                         <input type="number" placeholder="Amount (51-100)" class="nft-buy-amount" min="51" max="100">
-                        <i class="fa-solid fa-dollar-sign"></i>
+                        <i class="fa-solid fa-dollar-sign"></i> <!-- Static Icon (Right) -->
                     </div>
-                    <button class="btn btn-buy-nft" data-nft-id="gold" data-min="51" data-max="100">
+                    <button class="btn btn-buy-nft" data-nft-id="gold" data-min="51" data-max="100" style="border-radius: 14px;">
                         <span class="btn-text">Buy Now</span><div class="spinner-sm"></div>
                     </button>
                 </div>
@@ -1534,9 +1633,9 @@
             <form id="forgot-password-form">
                 <div class="input-group">
                     <input type="email" id="reset-email" required placeholder="Registered Email Address" autocomplete="email">
-                    <i class="fa-solid fa-envelope"></i>
+                    <i class="fa-solid fa-envelope"></i> <!-- Static Icon (Right) -->
                 </div>
-                <button type="submit" class="btn full-width" id="submit-reset-email-btn">
+                <button type="submit" class="btn full-width" id="submit-reset-email-btn" style="border-radius: 14px;">
                     <span class="btn-text">Send Reset Link</span><div class="spinner-sm"></div>
                 </button>
             </form>
@@ -1555,11 +1654,11 @@
             <form id="plan-purchase-form">
                 <div class="input-group">
                     <input type="text" id="plan-cost-display" readonly>
-                    <i class="fa-solid fa-money-bill-wave"></i>
+                    <i class="fa-solid fa-money-bill-wave"></i> <!-- Static Icon (Right) -->
                 </div>
                 <input type="hidden" id="plan-purchase-usd-cost">
                 <input type="hidden" id="plan-purchase-plan-id">
-                <button type="submit" class="btn full-width" id="confirm-plan-purchase-btn">
+                <button type="submit" class="btn full-width" id="confirm-plan-purchase-btn" style="border-radius: 14px;">
                     <span class="btn-text">Confirm & Purchase</span><div class="spinner-sm"></div>
                 </button>
             </form>
@@ -1594,17 +1693,17 @@
             <form id="recharge-form">
                 <div class="input-group" style="margin-top: 15px;">
                     <input type="number" id="recharge-amount" placeholder="Amount Sent (PKR)" required min="100" step="1">
-                    <i class="fa-solid fa-rupiah-sign"></i>
+                    <i class="fa-solid fa-rupiah-sign"></i> <!-- Static Icon (Right) -->
                 </div>
                 <div class="input-group">
                     <input type="text" id="sender-account-number" placeholder="Your Sender Account Number (11 digits)" required pattern="\d{11}" maxlength="11">
-                    <i class="fa-solid fa-phone"></i>
+                    <i class="fa-solid fa-phone"></i> <!-- Static Icon (Right) -->
                 </div>
                 <div class="input-group">
                     <input type="text" id="transaction-id" placeholder="Transaction ID (TxID/TID - MUST BE CORRECT)" required>
-                    <i class="fa-solid fa-receipt"></i>
+                    <i class="fa-solid fa-receipt"></i> <!-- Static Icon (Right) -->
                 </div>
-                <button id="submit-recharge-btn" type="submit" class="btn full-width">
+                <button id="submit-recharge-btn" type="submit" class="btn full-width" style="border-radius: 14px;">
                     <span class="btn-text">Submit for Review</span><div class="spinner-sm"></div>
                 </button>
             </form>
@@ -1620,7 +1719,7 @@
             <form id="withdrawal-form">
                 <div class="input-group">
                     <input type="number" id="withdraw-amount" placeholder="Amount (PKR)" required min="100" step="1">
-                    <i class="fa-solid fa-rupiah-sign"></i>
+                    <i class="fa-solid fa-rupiah-sign"></i> <!-- Static Icon (Right) -->
                 </div>
                 <div class="input-group">
                     <select id="withdraw-network" required>
@@ -1631,13 +1730,13 @@
                 </div>
                 <div class="input-group">
                     <input type="text" id="withdraw-account-number" placeholder="11-Digit Account Number" required pattern="\d{11}" maxlength="11">
-                    <i class="fa-solid fa-address-card"></i>
+                    <i class="fa-solid fa-address-card"></i> <!-- Static Icon (Right) -->
                 </div>
                 <div class="input-group">
                     <input type="text" id="withdraw-account-holder-name" placeholder="Account Holder Name" required>
-                    <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-user"></i> <!-- Static Icon (Right) -->
                 </div>
-                <button id="submit-withdrawal-btn" type="submit" class="btn full-width">
+                <button id="submit-withdrawal-btn" type="submit" class="btn full-width" style="border-radius: 14px;">
                     <span class="btn-text">Request Withdrawal</span><div class="spinner-sm"></div>
                 </button>
             </form>
@@ -1684,10 +1783,10 @@
                 PRELOADER_TIMEOUT: 8000,
                 
                 // --- MODIFIED PLAN CONFIG ---
-                PLAN_DAILY_RATE_PERCENT: 0.03, // 3% - Standard non-working rate
-                PLAN_DAILY_RATE_PRO_PERCENT: 0.05, // 5% - Plan 20 Pro rate
-                REQUIRED_ACTIVE_REFERRALS_FOR_3_PERCENT: 2, // New config: 2 direct members
-                PLAN_20_ID: 20, // New config
+                PLAN_DAILY_RATE_PERCENT: 0.03, // 3% - No longer used for main daily earning
+                PLAN_DAILY_RATE_PRO_PERCENT: 0.05, // 5% - Only for Plan 20 Pro
+                // REQUIRED_ACTIVE_REFERRALS_FOR_3_PERCENT: 2, // NO LONGER NEEDED
+                PLAN_20_ID: 20, 
                 MINIMUM_PROFIT_CLAIM_USD: 0.000001,
                 // --- END MODIFIED PLAN CONFIG ---
                 
@@ -1695,8 +1794,6 @@
                 REFERRAL_LEVELS: 9, // This is the depth of indirect bonuses (L2-L10)
                 REFERRAL_DIRECT_BONUS_PERCENT: 0.50,
                 REFERRAL_INDIRECT_BONUS_PERCENT: 0.03,
-                
-                // Milestone Rewards and Daily Tasks REMOVED
                 
                 // FREE PLAN GATE MODIFIED (kept as is)
                 FREE_PLAN_REQUIRED_REFERRALS: 2, 
@@ -1710,9 +1807,9 @@
                 NFT_TOTAL_RETURN_PERCENT: 3.00, 
                 NFT_DURATION_DAYS: 100,
                 // NEW: NFT Requirement
-                NFT_REQUIRED_ACTIVE_REFERRALS: 10, // Must have 10 direct members who have invested
+                NFT_REQUIRED_ACTIVE_REFERRALS: 10, 
                 
-                // --- MODIFIED MARKETING_PLANS CONFIG (Kept as is) ---
+                // --- MODIFIED MARKETING_PLANS CONFIG ---
                 MARKETING_PLANS: (() => {
                     const plans = [];
                     let pkrCost = 630;
@@ -1725,7 +1822,8 @@
                             pkrCost: pkrCost,
                             usdCost: parseFloat(usdCost.toFixed(2)),
                             duration: "Lifetime",
-                            dailyRate: isPlan20 ? 0.05 : 0.03, 
+                            // Plan 20 is 5%, all others are 0% for non-working income
+                            dailyRate: isPlan20 ? 0.05 : 0.00, 
                         });
                         pkrCost += 630; 
                     }
@@ -1833,7 +1931,7 @@
                     activePlanStatus: document.getElementById('active-plan-status'),
                     planInvestmentValue: document.getElementById('plan-investment-value'),
                     planProfitRate: document.getElementById('plan-profit-rate'),
-                    planRefProgress: document.getElementById('plan-ref-progress'), 
+                    // planRefProgress: document.getElementById('plan-ref-progress'), // REMOVED
                     planAccumulatedProfit: document.getElementById('plan-accumulated-profit'),
                     claimPlanProfitBtn: document.getElementById('claim-plan-profit-btn'),
                     upgradePlanBtn: document.getElementById('upgrade-plan-btn'), 
@@ -1865,7 +1963,7 @@
                     unclaimedBonusAmount: document.getElementById('unclaimed-bonus-amount'), collectBonusBtn: document.getElementById('collect-bonus-btn'), 
                     
                     // --- Network UI Elements ---
-                    networkLevelsContainer: document.getElementById('network-levels-container'), // <--- ADDED
+                    networkLevelsContainer: document.getElementById('network-levels-container'), 
                     blockListModal: document.getElementById('block-list-modal'), 
                     blockListModalTitle: document.getElementById('block-list-modal-title'), 
                     blockListModalBody: document.getElementById('block-list-modal-body'),
@@ -1966,9 +2064,9 @@
                 
                 // Update component-specific UIs
                 this.updatePlanUI(); 
-                this.updateNetworkUI(); // Renamed function for the invitation page
+                this.updateNetworkUI(); 
                 this.updateFreeMiningUI();
-                this.updateNFTRequirementUI(); // NEW
+                this.updateNFTRequirementUI(); 
                 this.updateMyNftsUI();
                 this.updateRankingUI();
             },
@@ -1986,7 +2084,7 @@
                 return (userData.usd_balance || 0) + planInvestment + planProfit + nftValue;
             },
 
-            // MODIFIED: Consolidate all history into one list
+            // MODIFIED: Consolidate all history into one list + add status styling
             updateAllHistories(transactions) {
                 const txArray = transactions ? Object.values(transactions).sort((a, b) => b.timestamp - a.timestamp) : [];
 
@@ -2000,18 +2098,26 @@
 
                 list.innerHTML = '';
                 if (transactions.length === 0) {
-                    msg.style.display = 'block';
+                    list.appendChild(msg);
                     return;
                 }
-                // Hide the placeholder message if there are transactions
+                
+                // Hide the placeholder message if it was mistakenly appended
                 if (msg.parentElement === list) {
                     msg.remove();
                 }
 
                 transactions.forEach(tx => {
                     const item = document.createElement('li');
-                    const isPending = tx.details?.status === 'pending';
-                    item.className = `transaction-item ${tx.type.toLowerCase().replace('mining', 'plan')} ${isPending ? 'pending' : ''}`;
+                    const status = tx.details?.status?.toLowerCase(); // 'pending', 'approved', 'rejected'
+                    
+                    let statusClass = '';
+                    if (status === 'pending') statusClass = 'pending';
+                    else if (status === 'approved') statusClass = 'approved';
+                    else if (status === 'rejected') statusClass = 'rejected';
+                    
+                    item.className = `transaction-item ${tx.type.toLowerCase().replace('mining', 'plan')} ${statusClass}`;
+                    
                     // Updated icons for transaction types
                     const icons = { deposit: 'fa-arrow-down', withdrawal: 'fa-paper-plane', bonus: 'fa-gift', plan_profit: 'fa-arrow-up-right-dots', plan_invest: 'fa-sack-dollar', invite_bonus: 'fa-users', nft_purchase: 'fa-gem', nft_profit: 'fa-hand-holding-usd' };
                     
@@ -2021,7 +2127,7 @@
                     let typeText = tx.type.replace(/_/g, ' ').replace('plan', 'plan').replace('invest', 'purchase');
                     
                     if (isFiatTx && tx.details?.pkrAmount) {
-                        const sign = ['withdrawal'].includes(tx.type) ? '-' : '+';
+                        const sign = ['withdrawal', 'nft_purchase', 'plan_invest'].includes(tx.type) ? '-' : '+';
                         amountDisplay = `${sign}PKR ${Math.round(tx.details.pkrAmount).toLocaleString()}`;
                         typeText = `${tx.details.network} ${typeText}`;
                     } else {
@@ -2029,17 +2135,17 @@
                         amountDisplay = `${sign}$${Number(tx.amount).toFixed(4)}`;
                     }
 
-                    const statusText = isPending ? ` <span style="color: var(--warning-color); font-weight: normal;">(Pending)</span>` : (tx.details?.status === 'rejected' ? ` <span style="color: var(--danger-color); font-weight: normal;">(Rejected)</span>` : (tx.details?.status === 'approved' ? ` <span style="color: var(--success-color); font-weight: normal;">(Approved)</span>` : ''));
-                    const typeDisplay = (tx.details?.reason || typeText) + statusText;
+                    // Status display text
+                    let statusDisplay = '';
+                    if (status === 'pending') statusDisplay = `<span style="color: var(--warning-color); font-weight: normal;">(Pending)</span>`;
+                    else if (status === 'rejected') statusDisplay = `<span style="color: var(--danger-color); font-weight: normal;">(Rejected)</span>`;
+                    else if (status === 'approved') statusDisplay = `<span style="color: var(--success-color); font-weight: normal;">(Approved)</span>`;
+
+                    const typeDisplay = (tx.details?.reason || typeText) + statusDisplay;
 
                     item.innerHTML = `<div class="icon"><i class="fas ${icons[tx.type.toLowerCase()] || 'fa-exchange-alt'}"></i></div><div class="details"><div class="type">${typeDisplay}</div><div class="date">${new Date(tx.timestamp).toLocaleString()}</div></div><div class="amount">${amountDisplay}</div>`;
                     list.appendChild(item);
                 });
-                
-                // Re-append the message if it was removed and list is still empty (shouldn't happen here but safer)
-                if (list.childElementCount === 0 && !document.getElementById('no-transactions-msg')) {
-                    list.appendChild(msg);
-                }
             },
             
             // --- [4] EVENT LISTENERS & HANDLERS ---
@@ -2077,14 +2183,15 @@
                 this.state.ui.loginForm.addEventListener('submit', (e) => this.handleLogin(e));
                 this.state.ui.registerForm.addEventListener('submit', (e) => this.handleRegister(e));
                 
-                // --- MODIFIED Password Toggle ---
+                // --- MODIFIED Password Toggle: Only react to icon click ---
                 document.querySelectorAll('.toggle-password').forEach(toggle => { 
+                    // Ensures the click only works on the icon itself, not the input
                     toggle.addEventListener('click', (e) => { 
                         const icon = e.target; 
                         // Find the input element sibling within the same input-group
-                        const input = icon.closest('.input-group')?.querySelector('input'); 
+                        const input = icon.closest('.input-group')?.querySelector('input[type="password"], input[type="text"]'); 
                         
-                        if(input && (input.type === 'password' || input.type === 'text')) { 
+                        if(input) { 
                             if (input.type === 'password') {
                                 input.type = 'text';
                                 icon.classList.remove('fa-eye');
@@ -2260,12 +2367,11 @@
                         plans: { 
                             totalInvestmentUSD: 0, 
                             lastProfitClaimTimestamp: 0, 
-                            firstInvestmentProcessed: false, 
+                            firstInvestmentProcessed: false, // <-- GATES INVITATION BONUS EARNING
                             totalProfitGeneratedUSD: 0,
                             hasPlan20Pro: false 
                         }, 
                         nfts: {},
-                        // Daily Tasks and Rewards related fields removed
                         ancestry: ancestry,
                         referrals_by_level: {},
                         referrals_data: {},
@@ -2315,7 +2421,7 @@
 
             async handleLogout(e) { try { await this.auth.signOut(); } catch (error) { this.showToast(error.message, 'danger'); } },
             
-            // MODIFIED handleRecharge for PKR
+            // MODIFIED handleRecharge for PKR - Sets status to 'pending'
             async handleRecharge(e) { 
                 e.preventDefault(); 
                 const btn = e.currentTarget.querySelector('button'); 
@@ -2350,9 +2456,10 @@
                         timestamp: firebase.database.ServerValue.TIMESTAMP 
                     }); 
 
+                    // Log transaction with pending status for history view
                     await this.logTransaction('deposit', usdEquivalent, { network, txId, senderAccount, pkrAmount, status: 'pending' }); 
                     
-                    this.showToast(`Recharge request for PKR ${pkrAmount.toLocaleString()} submitted!`, 'success'); 
+                    this.showToast(`Recharge request for PKR ${pkrAmount.toLocaleString()} submitted! Admin will process it shortly.`, 'success'); 
                     this.state.ui.rechargeForm.reset(); 
                     this.hideModal('recharge-modal'); 
                 } catch (err) { 
@@ -2362,7 +2469,7 @@
                 } 
             },
 
-            // MODIFIED handleWithdraw for PKR
+            // MODIFIED handleWithdraw for PKR - Sets status to 'pending'
             async handleWithdraw(e) { 
                 e.preventDefault(); 
                 const btn = e.currentTarget.querySelector('button'); 
@@ -2380,7 +2487,7 @@
 
                 const usdAmount = pkrAmount / this.config.PKR_TO_USD_RATE;
                 const fee = usdAmount * this.config.WITHDRAWAL_FEE_PERCENT;
-                const netUsdWithdrawal = usdAmount + fee; 
+                const netUsdWithdrawal = usdAmount + fee; // The amount to deduct from balance
 
                 if (this.state.userData.usd_balance < netUsdWithdrawal) {
                     return this.showToast(`Insufficient balance. Required USD: $${netUsdWithdrawal.toFixed(2)}.`, 'danger'); 
@@ -2389,6 +2496,7 @@
                 this.setButtonLoading(btn, true); 
                 
                 try { 
+                    // Move funds to balance_on_hold immediately
                     await this.state.userRef.update({ 
                         usd_balance: firebase.database.ServerValue.increment(-netUsdWithdrawal), 
                         balance_on_hold: firebase.database.ServerValue.increment(netUsdWithdrawal) 
@@ -2407,6 +2515,7 @@
                         timestamp: firebase.database.ServerValue.TIMESTAMP 
                     }); 
 
+                    // Log transaction with pending status for history view
                     await this.logTransaction('withdrawal', usdAmount, { 
                         network, 
                         accountNumber, 
@@ -2416,12 +2525,12 @@
                         status: 'pending' 
                     }); 
 
-                    this.showToast(`Withdrawal request for PKR ${pkrAmount.toLocaleString()} submitted!`, 'success'); 
+                    this.showToast(`Withdrawal request for PKR ${pkrAmount.toLocaleString()} submitted! Admin will process it shortly.`, 'success'); 
                     this.state.ui.withdrawalForm.reset(); 
                     this.hideModal('withdrawal-modal'); 
                 } catch (err) { 
                     this.showToast(`Withdrawal failed: ${err.message}`, 'danger'); 
-                    // Rollback on failure (simplified)
+                    // Rollback on client-side failure (return funds from hold to balance)
                     await this.state.userRef.update({ 
                         usd_balance: firebase.database.ServerValue.increment(netUsdWithdrawal), 
                         balance_on_hold: firebase.database.ServerValue.increment(-netUsdWithdrawal) 
@@ -2431,7 +2540,7 @@
                 } 
             },
             
-            // --- [5.1] Plan & Invitation Bonus Logic (Kept as is) ---
+            // --- [5.1] Plan & Invitation Bonus Logic (Modified Daily Rate) ---
             
             updatePlansUI() {
                 const container = this.state.ui.marketingPlansContainer;
@@ -2441,6 +2550,7 @@
                     card.className = 'plan-card';
                     const isPlan20 = plan.id === this.config.PLAN_20_ID;
                     const iconColor = isPlan20 ? 'var(--danger-color)' : (plan.id % 2 === 0 ? 'var(--primary-accent)' : 'var(--secondary-accent)');
+                    const dailyRateText = isPlan20 ? '5%' : '0%';
                     
                     card.innerHTML = `
                         <div class="plan-visual" style="box-shadow: 0 0 15px ${iconColor}; background: linear-gradient(45deg, ${iconColor}, var(--secondary-accent));">
@@ -2449,10 +2559,10 @@
                         <h4>${plan.name}</h4>
                         <p class="plan-price">PKR ${plan.pkrCost.toLocaleString()} | $${plan.usdCost.toFixed(2)} USD</p>
                         <ul class="nft-details" style="border-left: 5px solid ${iconColor};">
-                            <li><span>Daily Earning</span><span>${(plan.dailyRate * 100).toFixed(0)}%</span></li>
+                            <li><span>Daily Earning</span><span>${dailyRateText}</span></li>
                             <li><span>Duration</span><span>${plan.duration}</span></li>
                         </ul>
-                        <button class="btn btn-purchase-plan" data-plan-id="${plan.id}" data-plan-usd-cost="${plan.usdCost}" style="${isPlan20 ? 'background: linear-gradient(45deg, var(--danger-color), #f87171);' : ''}">
+                        <button class="btn btn-purchase-plan" data-plan-id="${plan.id}" data-plan-usd-cost="${plan.usdCost}" style="${isPlan20 ? 'background: linear-gradient(45deg, var(--danger-color), #f87171); border-radius: 14px;' : 'border-radius: 14px;'}">
                             <span class="btn-text">Purchase Plan</span>
                         </button>
                     `;
@@ -2505,7 +2615,7 @@
                 
                 try {
                     const plansData = this.state.userData.plans || {};
-                    const isFirstInvestment = !(plansData.firstInvestmentProcessed);
+                    const isFirstInvestment = !(plansData.firstInvestmentProcessed); // For bonus gating
                     
                     const updates = {
                         'usd_balance': firebase.database.ServerValue.increment(-amount), 
@@ -2526,10 +2636,11 @@
                     
                     // Must be called AFTER the investment is successfully processed
                     if (isFirstInvestment) { 
+                        // **This is the logic that gates the invitation bonus earning**
                         await this.processFirstInvestmentAndReferrals(amount); 
                     }
                     
-                    await this.logTransaction('plan_invest', amount, { reason: `Purchased ${plan.name} Plan` });
+                    await this.logTransaction('plan_invest', amount, { reason: `Purchased ${plan.name} Plan`, status: 'approved' });
                     this.showToast(`Purchased ${plan.name} Plan for $${amount.toFixed(2)}! Earning is now active!`, 'success');
                     this.hideModal('plan-purchase-modal');
                 } catch (error) { 
@@ -2539,32 +2650,9 @@
                 }
             },
             
-            async processFirstInvestmentAndReferrals(investmentAmount) {
-                if (this.state.userData.plans.firstInvestmentProcessed) return;
-                const { ancestry, uid: newUserId } = this.state.userData;
-                const updates = {};
-                updates[`/users/${newUserId}/plans/firstInvestmentProcessed`] = true;
-                if (ancestry && Object.keys(ancestry).length > 0) {
-                    for (const [level, ancestorUid] of Object.entries(ancestry)) {
-                        const levelNum = parseInt(level.split('_')[1]);
-                        const bonusPercent = levelNum === 1 ? this.config.REFERRAL_DIRECT_BONUS_PERCENT : this.config.REFERRAL_INDIRECT_BONUS_PERCENT;
-                        const bonusAmount = investmentAmount * bonusPercent;
-                        updates[`/users/${ancestorUid}/unclaimed_invite_bonus`] = firebase.database.ServerValue.increment(bonusAmount);
-                    }
-                    const directReferrerUid = ancestry['level_1'];
-                    if (directReferrerUid) {
-                        updates[`/users/${directReferrerUid}/active_referrals_count`] = firebase.database.ServerValue.increment(1);
-                        // The miningGateActive/Progress logic is removed as the Free Plan page suggests a manual claim via Telegram
-                        // but the structure is kept to fulfill the free-mining-page's progress update
-                    }
-                }
-                await this.db.ref().update(updates);
-            },
-            
-            // --- NEW: Determine the correct daily rate ---
+            // MODIFIED: Only Plan 20 Pro (5%) earns daily profit, all others are 0%
             getEffectiveDailyRate() {
                 const planData = this.state.userData?.plans;
-                const activeReferrals = this.state.userData?.active_referrals_count || 0;
                 
                 if (!planData || planData.totalInvestmentUSD <= 0) {
                     return 0;
@@ -2575,13 +2663,8 @@
                     return this.config.PLAN_DAILY_RATE_PRO_PERCENT; // 0.05
                 }
 
-                // General case: 3% daily non-working income starts after 2 active direct members
-                if (activeReferrals >= this.config.REQUIRED_ACTIVE_REFERRALS_FOR_3_PERCENT) {
-                    return this.config.PLAN_DAILY_RATE_PERCENT; // 0.03
-                }
-                
-                // No Plan 20 Pro and not enough active referrals (0% earning)
-                return 0;
+                // All other plans have a 0% non-working rate
+                return 0; 
             },
             
             async handleClaimPlanProfit(e) {
@@ -2601,7 +2684,7 @@
                         }
                         return data;
                     });
-                    await this.logTransaction('plan_profit', profitUSD);
+                    await this.logTransaction('plan_profit', profitUSD, { status: 'approved' }); // Plan profit is instantly approved
                     this.showToast(`Claimed $${profitUSD.toFixed(6)} USD!`, 'success');
                 } catch(error) {
                     this.showToast(`Error: ${error.message}`, 'danger');
@@ -2632,31 +2715,35 @@
                     this.state.ui.activePlanStatus.style.display = 'block';
                     
                     const investment = planData.totalInvestmentUSD;
-                    const activeReferrals = this.state.userData.active_referrals_count || 0;
-                    const requiredRefs = this.config.REQUIRED_ACTIVE_REFERRALS_FOR_3_PERCENT;
                     const effectiveDailyRate = this.getEffectiveDailyRate();
 
-                    const ratePercent = (effectiveDailyRate * 100).toFixed(0);
                     let rateText;
+                    let dailyProfitValue = investment * effectiveDailyRate;
 
-                    if (effectiveDailyRate === 0) {
-                        rateText = `0% - Waiting for Refs`;
-                    } else if (planData.hasPlan20Pro) {
-                         rateText = `$${(investment * effectiveDailyRate).toFixed(4)} USD (5% Pro)`;
+                    if (effectiveDailyRate === this.config.PLAN_DAILY_RATE_PRO_PERCENT) {
+                        rateText = `$${dailyProfitValue.toFixed(4)} USD (5% Pro)`;
                     } else {
-                        rateText = `$${(investment * effectiveDailyRate).toFixed(4)} USD (${ratePercent}%)`;
+                        // All other plans have 0% daily earning
+                        rateText = `$0.00 USD (0%)`;
                     }
 
                     // Update UI elements
                     this.state.ui.planInvestmentValue.textContent = `$${investment.toFixed(2)}`;
                     this.state.ui.planProfitRate.textContent = rateText; 
-                    this.state.ui.planRefProgress.textContent = `${activeReferrals} / ${requiredRefs}`;
                     
+                    // Hide/remove the irrelevant 'Active Refs for 3%' UI if it existed
+                    // Note: The template was cleaned up, this only ensures the correct rateText is shown
+
                     this.state.planProfitInterval = setInterval(() => {
                         const accumulatedProfit = this.calculatePlanProfit(); 
                         this.state.ui.planAccumulatedProfit.textContent = `$${accumulatedProfit.toFixed(8)} USD`;
-                        this.state.ui.claimPlanProfitBtn.disabled = accumulatedProfit < this.config.MINIMUM_PROFIT_CLAIM_USD;
+                        this.state.ui.claimPlanProfitBtn.disabled = accumulatedProfit < dailyProfitValue; // Only allow claim after 1 day's profit is generated
                         this.state.ui.claimPlanProfitBtn.querySelector('.btn-text').innerHTML = `<i class="fas fa-hand-holding-dollar"></i> Claim Profit`;
+                        
+                        if (effectiveDailyRate === 0) { // Override: If no profit, keep button disabled
+                            this.state.ui.claimPlanProfitBtn.disabled = true;
+                            this.state.ui.claimPlanProfitBtn.querySelector('.btn-text').innerHTML = `No Daily Earning`;
+                        }
                     }, 1000);
 
                 } else {
@@ -2664,7 +2751,7 @@
                 }
             },
 
-            // --- [5.2] Ranking Logic (Modified) ---
+            // --- [5.2] Ranking Logic (Kept as is) ---
             calculateUserNetWorth(userData) {
                 const usdBalance = userData.usd_balance || 0;
                 const planInvestment = userData.plans?.totalInvestmentUSD || 0;
@@ -2734,9 +2821,10 @@
                 }
             },
             
-            // --- [5.3] Profile, Tasks, Rewards & Network Logic (Modified) ---
+            // --- [5.3] Profile, Tasks, Rewards & Network Logic (Kept as is) ---
             
             async handleChangePassword(e) { e.preventDefault(); const btn = e.target.querySelector('button'); this.setButtonLoading(btn, true); const currentPassword = document.getElementById('current-password').value; const newPassword = document.getElementById('new-password').value; if (newPassword.length < 6) { this.showToast('New password must be at least 6 characters.', 'danger'); this.setButtonLoading(btn, false); return; } try { const user = this.state.currentUser; await user.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, currentPassword)); await user.updatePassword(newPassword); this.showToast('Password changed successfully!', 'success'); this.state.ui.changePasswordForm.reset(); this.showPage('profile-page'); } catch (error) { this.showToast(error.message, 'danger'); } finally { this.setButtonLoading(btn, false); } },
+            // Log transaction with status detail
             async logTransaction(type, amount, details = {}) { if(!this.state.currentUser) return; await this.db.ref(`transactions/${this.state.currentUser.uid}`).push({ type, amount, details, timestamp: firebase.database.ServerValue.TIMESTAMP }); },
 
             // MODIFIED: Function to update the referral bonus UI AND render the dynamic network cards
@@ -2840,7 +2928,8 @@
                         usd_balance: firebase.database.ServerValue.increment(unclaimedBonus),
                         unclaimed_invite_bonus: 0
                     });
-                    await this.logTransaction('invite_bonus', unclaimedBonus, { reason: 'Block Commission' }); 
+                    // Log transaction with approved status
+                    await this.logTransaction('invite_bonus', unclaimedBonus, { reason: 'Block Commission', status: 'approved' }); 
                     this.showToast(`Collected $${unclaimedBonus.toFixed(4)} from your network!`, 'success');
                 } catch (error) {
                     this.showToast(`Error: ${error.message}`, 'danger');
@@ -2855,7 +2944,7 @@
                 this.state.ui.freeMiningProgress.textContent = `${activeReferrals} / ${this.config.FREE_PLAN_REQUIRED_REFERRALS}`;
             },
             
-            // --- [5.4] NFT Logic (Modified for requirement) ---
+            // --- [5.4] NFT Logic (Kept as is) ---
             
             canUserBuyNFT() {
                 return (this.state.userData.active_referrals_count || 0) >= this.config.NFT_REQUIRED_ACTIVE_REFERRALS;
@@ -2917,7 +3006,8 @@
                         lastClaimTimestamp: firebase.database.ServerValue.TIMESTAMP,
                         totalProfitClaimed: 0,
                     });
-                    await this.logTransaction('nft_purchase', amount, { reason: `${nftId.charAt(0).toUpperCase() + nftId.slice(1)} NFT` });
+                    // Log NFT purchase with approved status
+                    await this.logTransaction('nft_purchase', amount, { reason: `${nftId.charAt(0).toUpperCase() + nftId.slice(1)} NFT`, status: 'approved' });
                     this.showToast(`Successfully purchased ${nftId} NFT!`, 'success');
                     amountInput.value = '';
                 } catch (error) {
@@ -2972,7 +3062,7 @@
                                 <div class="nft-progress-bar-inner" id="progress-${key}" style="width: 0%;"></div>
                             </div>
                         </div>
-                        <button class="btn btn-claim btn-claim-nft full-width" data-nft-key="${key}" disabled>
+                        <button class="btn btn-claim btn-claim-nft full-width" data-nft-key="${key}" disabled style="border-radius: 14px;">
                             <span class="btn-text">Claim Profit</span>
                             <div class="spinner-sm"></div>
                         </button>`;
@@ -3075,7 +3165,8 @@
                     updates[`/users/${this.state.currentUser.uid}/nfts/${nftKey}/lastClaimTimestamp`] = firebase.database.ServerValue.TIMESTAMP;
                     
                     await this.db.ref().update(updates);
-                    await this.logTransaction('nft_profit', profitToClaim, { reason: `${nft.nftId} NFT Earning` });
+                    // Log NFT profit with approved status
+                    await this.logTransaction('nft_profit', profitToClaim, { reason: `${nft.nftId} NFT Earning`, status: 'approved' });
                     
                     this.showToast(`Claimed $${profitToClaim.toFixed(4)}!`, 'success');
 
@@ -3103,6 +3194,7 @@
                     console.error("Firebase user data error:", error); 
                     this.showToast("Could not sync user data.", "danger"); 
                 }); 
+                // Listen to the user's transactions for the history page, updated by admin changes to status
                 this.state.txRef.limitToLast(100).on('value', (snapshot) => this.updateAllHistories(snapshot.val())); 
             },
 
