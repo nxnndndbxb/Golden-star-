@@ -338,7 +338,7 @@
             margin-right: 15px;
         }
         .sidebar-action-list button.logout-btn i { color: var(--danger-color); }
-        .sidebar-action-list button.rewards-btn i { color: var(--warning-color); }
+        .sidebar-action-list button.history-btn i { color: var(--member-color); } /* NEW History Icon Color */
         .sidebar-action-list button.nft-btn i { color: var(--primary-accent); }
         .sidebar-action-list button.sell-products-btn i { color: var(--secondary-accent); }
         .sidebar-action-list button.free-mining-btn i { color: var(--success-color); }
@@ -1079,10 +1079,15 @@
                     <div class="input-group">
                         <input type="password" id="login-password" required placeholder="Password" autocomplete="current-password">
                         <i class="fa-solid fa-lock"></i>
+                        <!-- MODIFIED EYE ICON CLASS -->
                         <i class="fa-solid fa-eye toggle-password"></i>
                     </div>
                     <button type="submit" class="btn full-width"><span class="btn-text">Login Securely</span><div class="spinner-sm"></div></button>
                 </form>
+                <!-- MODIFIED: Added Forgot Password Link -->
+                <p class="auth-switch" style="margin-top: 15px; text-align: right; margin-bottom: 0;">
+                    <a href="#" id="show-forgot-password-link">Forgot Password?</a>
+                </p>
                 <p class="auth-switch">No account? <a href="#" id="show-register-link">Sign Up</a></p>
             </div>
         </div>
@@ -1103,11 +1108,13 @@
                     <div class="input-group">
                         <input type="password" id="register-password" required placeholder="Password" autocomplete="new-password">
                         <i class="fa-solid fa-lock"></i>
+                        <!-- MODIFIED EYE ICON CLASS -->
                         <i class="fa-solid fa-eye toggle-password"></i>
                     </div>
                     <div class="input-group">
                         <input type="password" id="register-repeat-password" required placeholder="Repeat Password" autocomplete="new-password">
                         <i class="fa-solid fa-key"></i>
+                        <!-- MODIFIED EYE ICON CLASS -->
                         <i class="fa-solid fa-eye toggle-password"></i>
                     </div>
                     <div class="input-group">
@@ -1137,7 +1144,7 @@
         <!-- Sidebar Overlay (for closing) -->
         <div id="sidebar-overlay"></div>
 
-        <!-- Sliding Sidebar (Removed Rewards Button) -->
+        <!-- Sliding Sidebar (ADDED History Button) -->
         <aside id="app-sidebar">
             <div class="sidebar-user-info">
                 <div class="profile-avatar"><i class="fas fa-user-astronaut"></i></div>
@@ -1151,7 +1158,8 @@
                 </div>
             </div>
             <ul class="sidebar-action-list">
-                <!-- REWARD BUTTON REMOVED -->
+                <!-- NEW: History Button -->
+                <li><button class="action-card history-btn" data-page-target="history-page"><i class="fas fa-history"></i><span>History</span></button></li>
                 <li><button class="action-card nft-btn" data-page-target="nft-page"><i class="fas fa-gem"></i><span>NFTs</span></button></li>
                 <li><button class="action-card sell-products-btn" data-page-target="sell-products-page"><i class="fas fa-store"></i><span>Sell Products</span></button></li>
                 <li><button class="action-card free-mining-btn" data-page-target="free-mining-page"><i class="fas fa-bolt-lightning"></i><span>Free Plan</span></button></li>
@@ -1211,6 +1219,22 @@
 
         </main>
 
+        <!-- [NEW] Combined History Page -->
+        <section id="history-page" class="page">
+            <div class="page-header">
+                <h3>Full Transaction History</h3>
+            </div>
+            <div class="content-panel">
+                <h3>All System Transactions</h3>
+                <p class="info-text" style="margin-bottom: 25px;">Review all deposits, withdrawals, plan, NFT, and referral transactions.</p>
+                <!-- This will now hold ALL history data -->
+                <ul id="history-list-combined" class="history-list">
+                    <p class="info-text" id="no-transactions-msg">No transactions recorded yet.</p>
+                </ul>
+            </div>
+        </section>
+
+
         <!-- [NEW] Ranking Page (Updated Style) -->
         <section id="ranking-page" class="page">
             <div class="page-header">
@@ -1244,7 +1268,7 @@
             </div>
         </section>
 
-        <!-- Wallet Page (Daily Tasks Panel Removed) -->
+        <!-- Wallet Page (History Removed) -->
         <section id="wallet-page" class="page">
              <div class="page-header">
                 <h3>My Wallet</h3>
@@ -1258,13 +1282,6 @@
                     <button class="btn btn-buy" id="recharge-btn-modal"><i class="fas fa-plus-circle"></i>&nbsp; Recharge (PKR)</button>
                     <button class="btn btn-sell" id="withdraw-btn-modal"><i class="fas fa-paper-plane"></i>&nbsp; Withdraw (PKR)</button>
                 </div>
-            </div>
-            
-            <!-- REMOVED: Daily Tasks & Rewards Panel -->
-            
-            <div class="content-panel">
-                <h3>Wallet & Plan History</h3>
-                <ul id="wallet-history-list" class="history-list"><p class="info-text" id="no-wallet-transactions-msg">No transactions yet.</p></ul>
             </div>
         </section>
 
@@ -1288,7 +1305,7 @@
             </div>
         </section>
 
-        <!-- Invite Page (MODIFIED: Dynamic Network Diagram) -->
+        <!-- Invite Page (MODIFIED: History Removed) -->
         <section id="invite-page" class="page">
             <div class="page-header">
                 <h3>Your Network</h3>
@@ -1324,11 +1341,6 @@
                 </div>
             </div>
             <!-- [END DYNAMIC BLOCK] -->
-            
-             <div class="content-panel">
-                <h3>Bonus History</h3>
-                <ul id="invite-history-list" class="history-list"><p class="info-text" id="no-invite-transactions-msg">No referral bonuses collected yet.</p></ul>
-            </div>
         </section>
         
         <!-- Security Page (Removed back button) -->
@@ -1342,11 +1354,13 @@
                     <div class="input-group">
                         <input type="password" id="current-password" placeholder="Current Password" required autocomplete="current-password">
                         <i class="fa-solid fa-key"></i>
+                        <!-- MODIFIED EYE ICON CLASS -->
                         <i class="fa-solid fa-eye toggle-password"></i>
                     </div>
                     <div class="input-group">
                         <input type="password" id="new-password" placeholder="New Password" required autocomplete="new-password">
                         <i class="fa-solid fa-lock"></i>
+                        <!-- MODIFIED EYE ICON CLASS -->
                         <i class="fa-solid fa-eye toggle-password"></i>
                     </div>
                     <button type="submit" class="btn full-width"><span class="btn-text">Change Password</span><div class="spinner-sm"></div></button>
@@ -1402,6 +1416,14 @@
             <div class="page-header">
                 <h3>NFT Investment Collection</h3>
             </div>
+            
+            <!-- NEW: NFT Requirement Panel -->
+            <div class="content-panel" id="nft-requirement-panel">
+                <!-- Content injected by JS: locked/unlocked status, progress bar -->
+                <p class="info-text">Loading NFT Requirement Status...</p>
+            </div>
+            <!-- END NEW: NFT Requirement Panel -->
+
             <div class="content-panel">
                 <p class="info-text" style="margin-bottom: 25px;">Purchase an NFT to earn a 3% daily return on your investment, up to a total of 300%. Your available balance is <b id="nft-page-usd-balance">$0.00</b>.</p>
                 <button class="btn full-width" id="view-my-nfts-btn"><span class="btn-text">View My NFTs (Achieved)</span></button>
@@ -1464,7 +1486,7 @@
             </div>
         </section>
 
-        <!-- [NEW] My NFTs Page -->
+        <!-- [NEW] My NFTs Page (History Removed) -->
         <section id="my-nfts-page" class="page">
             <div class="page-header">
                 <!-- Keep internal back button to NFT Page -->
@@ -1476,10 +1498,6 @@
             </div>
             <div class="content-panel" id="no-nfts-msg" style="display: none;">
                 <p class="info-text">You have not purchased any NFTs yet. Visit the NFT Collection to get started.</p>
-            </div>
-             <div class="content-panel">
-                <h3>NFT History</h3>
-                <ul id="nft-history-list" class="history-list"><p class="info-text" id="no-nft-transactions-msg">No NFT transactions yet.</p></ul>
             </div>
         </section>
 
@@ -1506,6 +1524,27 @@
     </div>
 
     <!-- Modals (Kept as is) -->
+    
+    <!-- MODAL FOR FORGOT PASSWORD (NEW) -->
+    <div id="forgot-password-modal" class="modal-overlay">
+        <div class="modal-content content-panel">
+            <button class="modal-close-btn" data-modal-id="forgot-password-modal">×</button>
+            <h3>Reset Your Password</h3>
+            <p class="info-text">Enter your account email address. We will send you a link to reset your password.</p>
+            <form id="forgot-password-form">
+                <div class="input-group">
+                    <input type="email" id="reset-email" required placeholder="Registered Email Address" autocomplete="email">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <button type="submit" class="btn full-width" id="submit-reset-email-btn">
+                    <span class="btn-text">Send Reset Link</span><div class="spinner-sm"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- END MODAL FOR FORGOT PASSWORD -->
+
+
     <!-- MODAL FOR PLAN PURCHASE CONFIRMATION -->
     <div id="plan-purchase-modal" class="modal-overlay">
         <div class="modal-content content-panel">
@@ -1670,7 +1709,9 @@
                 NFT_DAILY_RATE_PERCENT: 0.03, 
                 NFT_TOTAL_RETURN_PERCENT: 3.00, 
                 NFT_DURATION_DAYS: 100,
-
+                // NEW: NFT Requirement
+                NFT_REQUIRED_ACTIVE_REFERRALS: 10, // Must have 10 direct members who have invested
+                
                 // --- MODIFIED MARKETING_PLANS CONFIG (Kept as is) ---
                 MARKETING_PLANS: (() => {
                     const plans = [];
@@ -1838,15 +1879,16 @@
                     myNftsList: document.getElementById('my-nfts-list'),
                     noNftsMsg: document.getElementById('no-nfts-msg'),
                     viewMyNftsBtn: document.getElementById('view-my-nfts-btn'),
+                    
+                    // NEW: NFT Requirement Panel
+                    nftRequirementPanel: document.getElementById('nft-requirement-panel'),
 
                     // Recharge Modal specific
                     rechargeEasypaisa: document.getElementById('recharge-easypaisa'),
                     
-                    // History List Elements
+                    // History List Elements (MODIFIED for combined list)
                     historyLists: {
-                        wallet: { list: document.getElementById('wallet-history-list'), msg: document.getElementById('no-wallet-transactions-msg') },
-                        invite: { list: document.getElementById('invite-history-list'), msg: document.getElementById('no-invite-transactions-msg') },
-                        nft: { list: document.getElementById('nft-history-list'), msg: document.getElementById('no-nft-transactions-msg') },
+                        combined: { list: document.getElementById('history-list-combined'), msg: document.getElementById('no-transactions-msg') },
                     }
                 };
                 
@@ -1926,6 +1968,7 @@
                 this.updatePlanUI(); 
                 this.updateNetworkUI(); // Renamed function for the invitation page
                 this.updateFreeMiningUI();
+                this.updateNFTRequirementUI(); // NEW
                 this.updateMyNftsUI();
                 this.updateRankingUI();
             },
@@ -1943,19 +1986,12 @@
                 return (userData.usd_balance || 0) + planInvestment + planProfit + nftValue;
             },
 
+            // MODIFIED: Consolidate all history into one list
             updateAllHistories(transactions) {
                 const txArray = transactions ? Object.values(transactions).sort((a, b) => b.timestamp - a.timestamp) : [];
 
-                const historyConfig = {
-                    wallet: ['deposit', 'withdrawal', 'plan_profit', 'plan_invest', 'bonus'],
-                    invite: ['invite_bonus'],
-                    nft: ['nft_purchase', 'nft_profit']
-                };
-
-                for (const [key, types] of Object.entries(historyConfig)) {
-                    const filteredTxs = txArray.filter(tx => types.includes(tx.type));
-                    this.populateHistoryList(this.state.ui.historyLists[key], filteredTxs);
-                }
+                // All transactions go to the combined list
+                this.populateHistoryList(this.state.ui.historyLists.combined, txArray);
             },
 
             populateHistoryList(listConfig, transactions) {
@@ -1967,13 +2003,16 @@
                     msg.style.display = 'block';
                     return;
                 }
-                msg.style.display = 'none';
+                // Hide the placeholder message if there are transactions
+                if (msg.parentElement === list) {
+                    msg.remove();
+                }
 
                 transactions.forEach(tx => {
                     const item = document.createElement('li');
                     const isPending = tx.details?.status === 'pending';
                     item.className = `transaction-item ${tx.type.toLowerCase().replace('mining', 'plan')} ${isPending ? 'pending' : ''}`;
-                    // Updated icons for plan transactions
+                    // Updated icons for transaction types
                     const icons = { deposit: 'fa-arrow-down', withdrawal: 'fa-paper-plane', bonus: 'fa-gift', plan_profit: 'fa-arrow-up-right-dots', plan_invest: 'fa-sack-dollar', invite_bonus: 'fa-users', nft_purchase: 'fa-gem', nft_profit: 'fa-hand-holding-usd' };
                     
                     const isFiatTx = tx.type === 'deposit' && (tx.details?.network === 'easypaisa' || tx.details?.network === 'jazzcash') || (tx.type === 'withdrawal' && (tx.details?.network === 'easypaisa' || tx.details?.network === 'jazzcash'));
@@ -1990,12 +2029,17 @@
                         amountDisplay = `${sign}$${Number(tx.amount).toFixed(4)}`;
                     }
 
-                    const statusText = isPending ? ` <span style="color: var(--warning-color); font-weight: normal;">(Pending)</span>` : (tx.details?.status === 'rejected' ? ` <span style="color: var(--danger-color); font-weight: normal;">(Rejected)</span>` : '');
+                    const statusText = isPending ? ` <span style="color: var(--warning-color); font-weight: normal;">(Pending)</span>` : (tx.details?.status === 'rejected' ? ` <span style="color: var(--danger-color); font-weight: normal;">(Rejected)</span>` : (tx.details?.status === 'approved' ? ` <span style="color: var(--success-color); font-weight: normal;">(Approved)</span>` : ''));
                     const typeDisplay = (tx.details?.reason || typeText) + statusText;
 
                     item.innerHTML = `<div class="icon"><i class="fas ${icons[tx.type.toLowerCase()] || 'fa-exchange-alt'}"></i></div><div class="details"><div class="type">${typeDisplay}</div><div class="date">${new Date(tx.timestamp).toLocaleString()}</div></div><div class="amount">${amountDisplay}</div>`;
                     list.appendChild(item);
                 });
+                
+                // Re-append the message if it was removed and list is still empty (shouldn't happen here but safer)
+                if (list.childElementCount === 0 && !document.getElementById('no-transactions-msg')) {
+                    list.appendChild(msg);
+                }
             },
             
             // --- [4] EVENT LISTENERS & HANDLERS ---
@@ -2022,27 +2066,38 @@
                 // Auth
                 document.getElementById('show-register-link').addEventListener('click', (e) => { e.preventDefault(); this.state.ui.loginPage.style.display = 'none'; this.state.ui.registerPage.style.display = 'block'; });
                 document.getElementById('show-login-link').addEventListener('click', (e) => { e.preventDefault(); this.state.ui.registerPage.style.display = 'none'; this.state.ui.loginPage.style.display = 'block'; });
+                
+                // NEW: Forgot Password Link
+                document.getElementById('show-forgot-password-link').addEventListener('click', (e) => { 
+                    e.preventDefault(); 
+                    this.showModal('forgot-password-modal'); 
+                });
+                document.getElementById('forgot-password-form').addEventListener('submit', (e) => this.handleForgotPassword(e));
+
                 this.state.ui.loginForm.addEventListener('submit', (e) => this.handleLogin(e));
                 this.state.ui.registerForm.addEventListener('submit', (e) => this.handleRegister(e));
                 
-                // Password Toggle - Ensure it works for all relevant inputs
+                // --- MODIFIED Password Toggle ---
                 document.querySelectorAll('.toggle-password').forEach(toggle => { 
                     toggle.addEventListener('click', (e) => { 
                         const icon = e.target; 
-                        // Find the closest password input sibling within the same input-group
-                        const input = icon.closest('.input-group')?.querySelector('input[type="password"], input[type="text"]'); 
-                        if(input) { 
-                            // Only toggle if it's a password type or a text type from a previous toggle
+                        // Find the input element sibling within the same input-group
+                        const input = icon.closest('.input-group')?.querySelector('input'); 
+                        
+                        if(input && (input.type === 'password' || input.type === 'text')) { 
                             if (input.type === 'password') {
                                 input.type = 'text';
-                                icon.className = 'fa-solid fa-eye-slash toggle-password';
-                            } else if (input.id.includes('password') && input.type === 'text') {
+                                icon.classList.remove('fa-eye');
+                                icon.classList.add('fa-eye-slash');
+                            } else {
                                 input.type = 'password';
-                                icon.className = 'fa-solid fa-eye toggle-password';
+                                icon.classList.remove('fa-eye-slash');
+                                icon.classList.add('fa-eye');
                             }
                         } 
                     }); 
                 });
+                // --- END MODIFIED Password Toggle ---
 
                 // Navigation
                 document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', () => this.showPage(btn.dataset.page)));
@@ -2238,6 +2293,26 @@
             },
 
             async handleLogin(e) { e.preventDefault(); const btn = e.target.querySelector('button'); this.setButtonLoading(btn, true); const email = document.getElementById('login-email').value; const password = document.getElementById('login-password').value; try { await this.auth.signInWithEmailAndPassword(email, password); } catch (error) { this.showToast(error.message, 'danger'); } finally { this.setButtonLoading(btn, false); } },
+            
+            // NEW: Forgot Password Handler
+            async handleForgotPassword(e) {
+                e.preventDefault();
+                const btn = e.target.querySelector('button');
+                this.setButtonLoading(btn, true);
+                const email = document.getElementById('reset-email').value.trim();
+
+                try {
+                    await this.auth.sendPasswordResetEmail(email);
+                    this.showToast(`Password reset link sent to ${email}. Check your inbox!`, 'success');
+                    this.hideModal('forgot-password-modal');
+                    document.getElementById('forgot-password-form').reset();
+                } catch (error) {
+                    this.showToast(error.message, 'danger');
+                } finally {
+                    this.setButtonLoading(btn, false);
+                }
+            },
+
             async handleLogout(e) { try { await this.auth.signOut(); } catch (error) { this.showToast(error.message, 'danger'); } },
             
             // MODIFIED handleRecharge for PKR
@@ -2780,12 +2855,53 @@
                 this.state.ui.freeMiningProgress.textContent = `${activeReferrals} / ${this.config.FREE_PLAN_REQUIRED_REFERRALS}`;
             },
             
-            // --- [5.4] NFT Logic (Kept as is) ---
+            // --- [5.4] NFT Logic (Modified for requirement) ---
+            
+            canUserBuyNFT() {
+                return (this.state.userData.active_referrals_count || 0) >= this.config.NFT_REQUIRED_ACTIVE_REFERRALS;
+            },
+
+            updateNFTRequirementUI() {
+                const canBuy = this.canUserBuyNFT();
+                const activeRefs = this.state.userData.active_referrals_count || 0;
+                const requiredRefs = this.config.NFT_REQUIRED_ACTIVE_REFERRALS;
+                const panel = this.state.ui.nftRequirementPanel;
+                const grid = this.state.ui.nftGridContainer;
+                
+                panel.innerHTML = `
+                    <div class="invite-box">
+                        <div class="icon" style="color: ${canBuy ? 'var(--success-color)' : 'var(--danger-color)'}; text-shadow: 0 0 20px ${canBuy ? 'rgba(16, 185, 129, 0.5)' : 'rgba(239, 68, 68, 0.5)'};">
+                            <i class="fas ${canBuy ? 'fa-lock-open' : 'fa-lock'}"></i>
+                        </div>
+                        <h3 style="background: none; -webkit-text-fill-color: ${canBuy ? 'var(--success-color)' : 'var(--danger-color)'}; border-bottom: none;">NFT Access Status: ${canBuy ? 'UNLOCKED' : 'LOCKED'}</h3>
+                        <p>Requirement: To purchase any NFT, you must have <b>${requiredRefs} direct members</b> who have made their first investment.</p>
+                        <div class="stat-card" style="margin: 20px 0;">
+                            <div class="label">Your Active Direct Referrals</div>
+                            <div class="value" style="color: ${canBuy ? 'var(--success-color)' : 'var(--warning-color)'};">${activeRefs} / ${requiredRefs}</div>
+                        </div>
+                    </div>
+                `;
+                
+                // Disable/Enable the grid and buttons
+                grid.style.opacity = canBuy ? '1' : '0.4';
+                grid.style.pointerEvents = canBuy ? 'auto' : 'none';
+                
+                document.querySelectorAll('.btn-buy-nft').forEach(btn => {
+                    btn.disabled = !canBuy;
+                    btn.querySelector('.btn-text').textContent = canBuy ? 'Buy Now' : 'Locked';
+                });
+            },
+
             async handleBuyNft(btn) {
                 const { nftId, min, max } = btn.dataset;
                 const card = btn.closest('.nft-card');
                 const amountInput = card.querySelector('.nft-buy-amount');
                 const amount = parseFloat(amountInput.value);
+
+                if (!this.canUserBuyNFT()) {
+                     this.setButtonLoading(btn, false);
+                     return this.showToast(`NFT purchase is locked. You need ${this.config.NFT_REQUIRED_ACTIVE_REFERRALS} active direct members.`, 'danger');
+                }
 
                 if (isNaN(amount)) return this.showToast('Please enter a valid amount.', 'danger');
                 if (amount < min || amount > max) return this.showToast(`Amount must be between $${min} and $${max}.`, 'danger');
