@@ -1073,6 +1073,125 @@
             transform: translate(-50%, -50%) rotate(-20deg);
         }
 
+        /* NEW: Enhanced History Page Styles */
+        .history-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .history-filter-btn {
+            padding: 10px 20px;
+            background: var(--background-secondary);
+            border: 1px solid var(--surface-border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        .history-filter-btn.active {
+            background: var(--primary-accent);
+            color: var(--text-on-accent);
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 10px rgba(255, 195, 0, 0.5);
+        }
+        .history-filter-btn:hover:not(.active) {
+            background: var(--surface-highlight);
+            color: var(--primary-accent);
+        }
+
+        /* NEW: Enhanced Active Plan Display */
+        .active-plan-card {
+            background: linear-gradient(135deg, var(--surface-bg), var(--background-secondary));
+            border: 2px solid var(--primary-accent);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255, 195, 0, 0.3);
+        }
+        .active-plan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+        }
+        .active-plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .active-plan-title {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-shadow: 0 0 10px rgba(255, 195, 0, 0.5);
+        }
+        .active-plan-badge {
+            background: var(--primary-accent);
+            color: var(--text-on-accent);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        .active-plan-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .active-plan-stat {
+            text-align: center;
+            padding: 15px;
+            background: var(--surface-bg-darker);
+            border-radius: 15px;
+            border: 1px solid var(--surface-border);
+        }
+        .active-plan-stat .label {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        .active-plan-stat .value {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .active-plan-stat .value.profit {
+            color: var(--success-color);
+        }
+        .active-plan-progress {
+            margin-top: 15px;
+        }
+        .active-plan-progress .label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--background-secondary);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-accent), var(--success-color));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
     </style>
 </head>
 <body class="landing-visible">
@@ -1280,20 +1399,44 @@
                 <div class="stat-card"><div class="label">Active Plan</div><div class="value" id="home-active-plan">None</div></div>
             </div>
 
-            <!-- MODIFIED: Your Active Plan Status Panel -->
-            <div class="content-panel" id="active-plan-status" style="display: none;">
-                <h3>Your Active Plan Status</h3>
-                <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
-                    <div class="stat-card"><span class="label">Plan Investment</span><span class="value" id="plan-investment-value">PKR 0</span></div>
-                    <div class="stat-card"><span class="label">Daily Profit Rate</span><span class="value profit" id="plan-profit-rate">PKR 0</span></div>
+            <!-- NEW: Enhanced Active Plan Display -->
+            <div class="active-plan-card" id="active-plan-display" style="display: none;">
+                <div class="active-plan-header">
+                    <div class="active-plan-title" id="active-plan-name">Pro Earning Plan</div>
+                    <div class="active-plan-badge">ACTIVE</div>
                 </div>
-                <!-- NEW Stat Card for Accumulated Profit -->
-                 <div class="stat-card" style="grid-column: span 2; margin-top: 20px;">
-                    <div class="label">Accumulated Profit</div>
-                    <div class="value profit" id="plan-accumulated-profit" style="color: var(--success-color);">PKR 0</div>
-                 </div>
+                <div class="active-plan-stats">
+                    <div class="active-plan-stat">
+                        <div class="label">Investment</div>
+                        <div class="value" id="active-plan-investment">PKR 0</div>
+                    </div>
+                    <div class="active-plan-stat">
+                        <div class="label">Daily Profit</div>
+                        <div class="value profit" id="active-plan-daily-profit">PKR 0</div>
+                    </div>
+                    <div class="active-plan-stat">
+                        <div class="label">Accumulated</div>
+                        <div class="value profit" id="active-plan-accumulated">PKR 0</div>
+                    </div>
+                    <div class="active-plan-stat">
+                        <div class="label">Next Claim</div>
+                        <div class="value" id="active-plan-next-claim">Ready</div>
+                    </div>
+                </div>
+                <div class="active-plan-progress">
+                    <div class="label">
+                        <span>Profit Progress</span>
+                        <span id="active-plan-progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-inner" id="active-plan-progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
                 <div class="wallet-actions" style="margin-top: 25px;">
-                    <button class="btn full-width" id="claim-plan-profit-btn" disabled style="flex-grow: 1;"><span class="btn-text"><i class="fas fa-hand-holding-dollar"></i> Claim Profit</span><div class="spinner-sm"></div></button>
+                    <button class="btn full-width" id="claim-plan-profit-btn" disabled style="flex-grow: 1;">
+                        <span class="btn-text"><i class="fas fa-hand-holding-dollar"></i> Claim Profit</span>
+                        <div class="spinner-sm"></div>
+                    </button>
                 </div>
             </div>
             
@@ -1308,14 +1451,25 @@
 
         </main>
 
-        <!-- [NEW] Combined History Page -->
+        <!-- [NEW] Enhanced History Page -->
         <section id="history-page" class="page">
             <div class="page-header">
-                <h3>Full Transaction History</h3>
+                <h3>Transaction History</h3>
             </div>
             <div class="content-panel">
                 <h3>All System Transactions</h3>
                 <p class="info-text" style="margin-bottom: 25px;">Review all deposits, withdrawals, plan, NFT, and referral transactions.</p>
+                
+                <!-- NEW: History Filters -->
+                <div class="history-filters">
+                    <button class="history-filter-btn active" data-filter="all">All</button>
+                    <button class="history-filter-btn" data-filter="deposit">Deposits</button>
+                    <button class="history-filter-btn" data-filter="withdrawal">Withdrawals</button>
+                    <button class="history-filter-btn" data-filter="plan">Plan Transactions</button>
+                    <button class="history-filter-btn" data-filter="nft">NFT Transactions</button>
+                    <button class="history-filter-btn" data-filter="bonus">Referral Bonuses</button>
+                </div>
+                
                 <!-- This will now hold ALL history data -->
                 <ul id="history-list-combined" class="history-list">
                     <p class="info-text" id="no-transactions-msg">No transactions recorded yet.</p>
@@ -1753,9 +1907,9 @@
                 MINIMUM_PROFIT_CLAIM: 1, // PKR 1 minimum claim
                 // --- END MODIFIED PLAN CONFIG ---
                 
-                // Referral config
+                // Referral config - CHANGED: Direct bonus from 50% to 30%
                 REFERRAL_LEVELS: 9,
-                REFERRAL_DIRECT_BONUS_PERCENT: 0.50,
+                REFERRAL_DIRECT_BONUS_PERCENT: 0.30, // CHANGED from 0.50 to 0.30
                 REFERRAL_INDIRECT_BONUS_PERCENT: 0.03,
                 
                 // FREE PLAN GATE
@@ -1786,6 +1940,7 @@
                 planProfitInterval: null, 
                 nftIntervals: {},
                 ui: {},
+                historyFilter: 'all', // NEW: Track current history filter
             },
 
             async init() {
@@ -1860,14 +2015,20 @@
                     homePkrBalance: document.getElementById('home-pkr-balance'), 
                     homeActivePlan: document.getElementById('home-active-plan'),
                     
+                    // NEW: Enhanced Active Plan Display
+                    activePlanDisplay: document.getElementById('active-plan-display'),
+                    activePlanName: document.getElementById('active-plan-name'),
+                    activePlanInvestment: document.getElementById('active-plan-investment'),
+                    activePlanDailyProfit: document.getElementById('active-plan-daily-profit'),
+                    activePlanAccumulated: document.getElementById('active-plan-accumulated'),
+                    activePlanNextClaim: document.getElementById('active-plan-next-claim'),
+                    activePlanProgressText: document.getElementById('active-plan-progress-text'),
+                    activePlanProgressBar: document.getElementById('active-plan-progress-bar'),
+                    
                     // New Plan UI Elements
                     plansPagePkrBalance: document.getElementById('plans-page-pkr-balance'), 
                     marketingPlansContainer: document.getElementById('marketing-plans-container'),
                     marketingPlansPanel: document.getElementById('marketing-plans-panel'),
-                    activePlanStatus: document.getElementById('active-plan-status'),
-                    planInvestmentValue: document.getElementById('plan-investment-value'),
-                    planProfitRate: document.getElementById('plan-profit-rate'),
-                    planAccumulatedProfit: document.getElementById('plan-accumulated-profit'),
                     claimPlanProfitBtn: document.getElementById('claim-plan-profit-btn'),
                     
                     walletPkrBalance: document.getElementById('wallet-pkr-balance'), 
@@ -2002,12 +2163,25 @@
                 return (userData.pkr_balance || 0) + planInvestment + planProfit + nftValue;
             },
 
-            // MODIFIED: Consolidate all history into one list + add status styling
+            // MODIFIED: Enhanced history system with filtering
             updateAllHistories(transactions) {
                 const txArray = transactions ? Object.values(transactions).sort((a, b) => b.timestamp - a.timestamp) : [];
 
+                // Apply filter if set
+                let filteredTransactions = txArray;
+                if (this.state.historyFilter !== 'all') {
+                    filteredTransactions = txArray.filter(tx => {
+                        if (this.state.historyFilter === 'deposit') return tx.type === 'deposit';
+                        if (this.state.historyFilter === 'withdrawal') return tx.type === 'withdrawal';
+                        if (this.state.historyFilter === 'plan') return tx.type.includes('plan');
+                        if (this.state.historyFilter === 'nft') return tx.type.includes('nft');
+                        if (this.state.historyFilter === 'bonus') return tx.type.includes('bonus');
+                        return true;
+                    });
+                }
+
                 // All transactions go to the combined list
-                this.populateHistoryList(this.state.ui.historyLists.combined, txArray);
+                this.populateHistoryList(this.state.ui.historyLists.combined, filteredTransactions);
             },
 
             populateHistoryList(listConfig, transactions) {
@@ -2164,6 +2338,18 @@
                 // Block/Network Click Handler (Dynamic Level Cards added in renderNetworkDiagram)
                 this.state.ui.collectBonusBtn.addEventListener('click', e => this.handleCollectInviteBonus(e));
 
+                // NEW: History Filter Buttons
+                document.querySelectorAll('.history-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.history-filter-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.state.historyFilter = btn.dataset.filter;
+                        // Re-apply the filter to current transactions
+                        if (this.state.txRef) {
+                            this.state.txRef.limitToLast(100).once('value', snapshot => this.updateAllHistories(snapshot.val()));
+                        }
+                    });
+                });
 
                 // NFT Event Listeners
                 this.state.ui.viewMyNftsBtn.addEventListener('click', () => this.showPage('my-nfts-page'));
@@ -2576,13 +2762,14 @@
                 return potentialProfitPKR;
             },
 
+            // NEW: Enhanced Active Plan UI
             updatePlanUI() {
                 if(this.state.planProfitInterval) clearInterval(this.state.planProfitInterval);
                 const planData = this.state.userData?.plans;
                 const activePlan = this.state.userData?.active_plan;
                 
                 if (activePlan) {
-                    this.state.ui.activePlanStatus.style.display = 'block';
+                    this.state.ui.activePlanDisplay.style.display = 'block';
                     
                     const investment = planData.totalInvestmentPKR;
                     const effectiveDailyRate = this.getEffectiveDailyRate();
@@ -2597,15 +2784,37 @@
                         rateText = `PKR 0 (0%)`;
                     }
 
-                    // Update UI elements
-                    this.state.ui.planInvestmentValue.textContent = `PKR ${investment.toLocaleString()}`;
-                    this.state.ui.planProfitRate.textContent = rateText; 
+                    // Update enhanced active plan UI
+                    this.state.ui.activePlanName.textContent = activePlan;
+                    this.state.ui.activePlanInvestment.textContent = `PKR ${investment.toLocaleString()}`;
+                    this.state.ui.activePlanDailyProfit.textContent = rateText;
 
                     this.state.planProfitInterval = setInterval(() => {
                         const accumulatedProfit = this.calculatePlanProfit(); 
-                        this.state.ui.planAccumulatedProfit.textContent = `PKR ${accumulatedProfit.toLocaleString()}`;
+                        this.state.ui.activePlanAccumulated.textContent = `PKR ${accumulatedProfit.toLocaleString()}`;
+                        
+                        // Update progress bar
+                        const progressPercent = Math.min((accumulatedProfit / (investment * 0.5)) * 100, 100); // Cap at 100%
+                        this.state.ui.activePlanProgressText.textContent = `${Math.round(progressPercent)}%`;
+                        this.state.ui.activePlanProgressBar.style.width = `${progressPercent}%`;
+                        
+                        // Update claim button state
                         this.state.ui.claimPlanProfitBtn.disabled = accumulatedProfit < dailyProfitValue; // Only allow claim after 1 day's profit is generated
                         this.state.ui.claimPlanProfitBtn.querySelector('.btn-text').innerHTML = `<i class="fas fa-hand-holding-dollar"></i> Claim Profit`;
+                        
+                        // Update next claim time
+                        const timeSinceLastClaim = Date.now() - planData.lastProfitClaimTimestamp;
+                        const twentyFourHours = 24 * 60 * 60 * 1000;
+                        if (timeSinceLastClaim >= twentyFourHours) {
+                            this.state.ui.activePlanNextClaim.textContent = 'Ready';
+                            this.state.ui.activePlanNextClaim.style.color = 'var(--success-color)';
+                        } else {
+                            const remaining = twentyFourHours - timeSinceLastClaim;
+                            const hours = Math.floor((remaining / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
+                            const minutes = Math.floor((remaining / (1000 * 60)) % 60).toString().padStart(2, '0');
+                            this.state.ui.activePlanNextClaim.textContent = `${hours}:${minutes}`;
+                            this.state.ui.activePlanNextClaim.style.color = 'var(--warning-color)';
+                        }
                         
                         if (effectiveDailyRate === 0) { // Override: If no profit, keep button disabled
                             this.state.ui.claimPlanProfitBtn.disabled = true;
@@ -2614,7 +2823,7 @@
                     }, 1000);
 
                 } else {
-                    this.state.ui.activePlanStatus.style.display = 'none';
+                    this.state.ui.activePlanDisplay.style.display = 'none';
                 }
             },
 
