@@ -972,6 +972,7 @@
         .option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; background-color: var(--surface-bg-darker); padding: 8px; border-radius: 20px; }
         .option-btn { padding: 15px; border: none; background-color: transparent; color: var(--text-secondary); border-radius: 16px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; }
         .option-btn.active { background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent)); color: var(--text-on-accent); box-shadow: 0 5px 15px rgba(255, 195, 0, 0.4); }
+        .option-btn:hover { background: var(--surface-highlight); color: var(--primary-accent); }
         .address-box { 
             background-color: var(--surface-bg-darker); 
             padding: 20px; border-radius: 16px; margin-bottom: 20px; 
@@ -1788,48 +1789,65 @@
     </div>
     <!-- END MODAL FOR FORGOT PASSWORD -->
 
-    <!-- MODIFIED RECHARGE MODAL FOR PKR - ONLY EASYPAISA -->
+    <!-- MODIFIED RECHARGE MODAL FOR PKR (TWO STEPS) -->
     <div id="recharge-modal" class="modal-overlay">
         <div class="modal-content content-panel">
             <button class="modal-close-btn" data-modal-id="recharge-modal">×</button>
-            <h3>Recharge PKR (Easypaisa)</h3>
-            <p class="info-text">Send money to the Easypaisa account below, or scan the QR code:</p>
+            <h3 id="recharge-modal-title">Recharge PKR</h3>
             
-            <!-- Easypaisa Details - Now the only option -->
-            <div id="recharge-easypaisa" class="recharge-details">
-                <div class="address-box" style="margin-top: 15px;">
-                    <span class="address" id="easypaisa-account-number" style="font-size: 1.1em; font-weight: 600;">03199242314</span>
-                    <button class="copy-btn" tabindex="-1" data-copy-target-id="easypaisa-account-number"><i class="far fa-copy"></i></button>
-                </div>
-                <p class="info-text" style="margin-bottom: 15px;">**Account Holder: MUHAMMAD HASEEB**</p>
-
-                <div style="text-align: center; margin-bottom: 25px;">
-                    <!-- QR code updated to the new URL -->
-                    <img src="https://iili.io/Ki1gPyJ.jpg" 
-                         alt="Easypaisa QR Code for MUHAMMAD HASEEB" 
-                         style="width: 200px; height: auto; border-radius: 10px; border: 3px solid var(--primary-accent); max-width: 80%;">
-                    <p class="info-text" style="font-size: 0.8em; margin-top: 5px;">(QR code for MUHAMMAD HASEEB's easypaisa account)</p>
-                </div>
+            <!-- STEP 1: Method Selection and Amount -->
+            <div id="recharge-step-1">
+                <p class="info-text">Select your payment method and enter the recharge amount.</p>
+                <form id="recharge-step-1-form">
+                    <div class="input-group">
+                        <select id="recharge-network-select" required>
+                            <option value="">-- Select Payment Method --</option>
+                            <option value="easypaisa">Easypaisa</option>
+                            <option value="jazzcash">JazzCash</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="recharge-amount-step1" placeholder="Amount (PKR)" required min="100" step="1">
+                        <i class="fa-solid fa-rupiah-sign"></i> <!-- Static Icon (Right) -->
+                    </div>
+                    <button type="submit" class="btn full-width" id="recharge-step-1-next-btn" style="border-radius: 14px;">
+                        <span class="btn-text">Next: View Details</span><div class="spinner-sm"></div>
+                    </button>
+                </form>
             </div>
 
-            <p class="info-text" style="margin-top: 25px;">After sending, enter the transaction details below.</p>
-            <form id="recharge-form">
-                <div class="input-group" style="margin-top: 15px;">
-                    <input type="number" id="recharge-amount" placeholder="Amount Sent (PKR)" required min="100" step="1">
-                    <i class="fa-solid fa-rupiah-sign"></i> <!-- Static Icon (Right) -->
+            <!-- STEP 2: Details and Proof Submission -->
+            <div id="recharge-step-2" style="display: none;">
+                <p class="info-text" id="recharge-details-info">Send money to the account below, or scan the QR code:</p>
+                
+                <!-- Dynamic Details Container (Easypaisa/JazzCash) -->
+                <div id="recharge-details-container" style="text-align: center; margin-bottom: 25px;">
+                    <!-- Details will be injected here by JS -->
                 </div>
-                <div class="input-group">
-                    <input type="text" id="sender-account-number" placeholder="Your Sender Account Number (11 digits)" required pattern="\d{11}" maxlength="11">
-                    <i class="fa-solid fa-phone"></i> <!-- Static Icon (Right) -->
-                </div>
-                <div class="input-group">
-                    <input type="text" id="transaction-id" placeholder="Transaction ID (TxID/TID - MUST BE CORRECT)" required>
-                    <i class="fa-solid fa-receipt"></i> <!-- Static Icon (Right) -->
-                </div>
-                <button id="submit-recharge-btn" type="submit" class="btn full-width" style="border-radius: 14px;">
-                    <span class="btn-text">Submit for Review</span><div class="spinner-sm"></div>
-                </button>
-            </form>
+                
+                <p class="info-text" style="margin-top: 25px;">After sending, enter the transaction proof below and submit.</p>
+                
+                <form id="recharge-form">
+                    <!-- Hidden fields to carry over the selection from Step 1 -->
+                    <input type="hidden" id="recharge-network-hidden" name="network">
+                    <input type="hidden" id="recharge-amount-hidden" name="amount">
+                    
+                    <div class="input-group">
+                        <input type="text" id="sender-account-number" placeholder="Your Sender Account Number (11 digits)" required pattern="\d{11}" maxlength="11">
+                        <i class="fa-solid fa-phone"></i> <!-- Static Icon (Right) -->
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="transaction-id" placeholder="Transaction ID (TxID/TID - MUST BE CORRECT)" required>
+                        <i class="fa-solid fa-receipt"></i> <!-- Static Icon (Right) -->
+                    </div>
+                    <button id="submit-recharge-btn" type="submit" class="btn full-width" style="border-radius: 14px;">
+                        <span class="btn-text">Submit for Review</span><div class="spinner-sm"></div>
+                    </button>
+                    <p class="auth-switch" style="margin-top: 15px; text-align: center; margin-bottom: 0;">
+                        <a href="#" id="recharge-step-2-back-link">← Change Method/Amount</a>
+                    </p>
+                </form>
+            </div>
         </div>
     </div>
     <!-- END MODIFIED RECHARGE MODAL -->
@@ -1927,10 +1945,21 @@
                 NFT_DURATION_DAYS: 100,
                 NFT_REQUIRED_ACTIVE_REFERRALS: 10,
                 
-                // PKR Deposit Info
-                EASYPAISA_ACCOUNT_NUMBER: '03199242314',
-                EASYPAISA_ACCOUNT_HOLDER: 'MUHAMMAD HASEEB', 
-                EASYPAISA_QR_URL: 'https://iili.io/Ki1gPyJ.jpg', 
+                // PKR Deposit Info (UPDATED with new details and JazzCash)
+                PAYMENT_METHODS: {
+                    easypaisa: {
+                        name: 'Easypaisa',
+                        accountNumber: '03184336430', // UPDATED
+                        accountHolder: 'Sonia Eman', // UPDATED
+                        qrUrl: 'https://iili.io/KLcZF5B.jpg' // UPDATED
+                    },
+                    jazzcash: {
+                        name: 'JazzCash',
+                        accountNumber: '03199242314', // NEW
+                        accountHolder: 'Kinza Tariq', // NEW
+                        qrUrl: 'https://iili.io/KLcpcla.jpg' // NEW
+                    }
+                },
             },
 
             // --- [2] STATE MANAGEMENT ---
@@ -1945,6 +1974,10 @@
                 nftIntervals: {},
                 ui: {},
                 historyFilter: 'all', // NEW: Track current history filter
+                recharge: {
+                    network: null,
+                    amount: 0
+                }
             },
 
             async init() {
@@ -1958,6 +1991,7 @@
                 this.handleAuth();
                 this.state.preloaderTimeoutId = setTimeout(() => this.hidePreloader(), this.config.PRELOADER_TIMEOUT);
                 this.checkForRefCode();
+                this.updatePlansUI(); // Initial plans UI render
             },
 
             initFirebase() {
@@ -2037,6 +2071,19 @@
                     
                     walletPkrBalance: document.getElementById('wallet-pkr-balance'), 
                     walletOnHoldBalance: document.getElementById('wallet-on-hold-balance'), 
+                    
+                    // MODIFIED Recharge Modal elements
+                    rechargeStep1: document.getElementById('recharge-step-1'),
+                    rechargeStep1Form: document.getElementById('recharge-step-1-form'),
+                    rechargeNetworkSelect: document.getElementById('recharge-network-select'),
+                    rechargeAmountStep1: document.getElementById('recharge-amount-step1'),
+                    rechargeStep2: document.getElementById('recharge-step-2'),
+                    rechargeDetailsContainer: document.getElementById('recharge-details-container'),
+                    rechargeNetworkHidden: document.getElementById('recharge-network-hidden'),
+                    rechargeAmountHidden: document.getElementById('recharge-amount-hidden'),
+                    rechargeStep2BackLink: document.getElementById('recharge-step-2-back-link'),
+                    rechargeModalTitle: document.getElementById('recharge-modal-title'),
+                    
                     rechargeForm: document.getElementById('recharge-form'), 
                     withdrawalForm: document.getElementById('withdrawal-form'),
                     
@@ -2070,16 +2117,11 @@
                     // NEW: NFT Requirement Panel
                     nftRequirementPanel: document.getElementById('nft-requirement-panel'),
 
-                    // Recharge Modal specific
-                    rechargeEasypaisa: document.getElementById('recharge-easypaisa'),
-                    
                     // History List Elements
                     historyLists: {
                         combined: { list: document.getElementById('history-list-combined'), msg: document.getElementById('no-transactions-msg') },
                     }
                 };
-                
-                this.updatePlansUI(); 
             },
             
             showPage(pageId) { 
@@ -2312,11 +2354,13 @@
 
                 // Modals
                 document.querySelectorAll('.modal-close-btn').forEach(btn => btn.addEventListener('click', () => this.hideModal(btn.dataset.modalId)));
-                document.getElementById('recharge-btn-modal').addEventListener('click', () => this.showModal('recharge-modal'));
+                document.getElementById('recharge-btn-modal').addEventListener('click', () => this.showRechargeStep1()); // MODIFIED: Call Step 1 function
                 document.getElementById('withdraw-btn-modal').addEventListener('click', () => this.showModal('withdrawal-modal'));
                 
-                // Core Features
-                this.state.ui.rechargeForm.addEventListener('submit', (e) => this.handleRecharge(e));
+                // Core Features - MODIFIED Recharge flow
+                this.state.ui.rechargeStep1Form.addEventListener('submit', (e) => this.handleRechargeStep1(e)); // NEW listener
+                this.state.ui.rechargeStep2BackLink.addEventListener('click', (e) => { e.preventDefault(); this.showRechargeStep1(); }); // NEW back link listener
+                this.state.ui.rechargeForm.addEventListener('submit', (e) => this.handleRecharge(e)); // Step 2 submission
                 this.state.ui.withdrawalForm.addEventListener('submit', (e) => this.handleWithdraw(e));
                 
                 // Plan Purchase - MODIFIED: Direct purchase
@@ -2335,7 +2379,11 @@
                         e.stopPropagation(); 
                         const targetId = btn.dataset.copyTargetId; 
                         const textToCopy = document.getElementById(targetId)?.innerText; 
-                        if (textToCopy) this.copyToClipboard(textToCopy, btn.closest('.address-box')); 
+                        // The logic for copying the account number/details
+                        const addressBox = btn.closest('.address-box');
+                        const accountHolder = addressBox.dataset.accountHolder;
+
+                        if (textToCopy) this.copyToClipboard(textToCopy, addressBox, `${accountHolder}'s Account Number`); 
                     }); 
                 });
                 
@@ -2511,19 +2559,77 @@
 
             async handleLogout(e) { try { await this.auth.signOut(); } catch (error) { this.showToast(error.message, 'danger'); } },
             
+            // NEW: Step 1 handler (Selection)
+            handleRechargeStep1(e) {
+                e.preventDefault();
+                const network = this.state.ui.rechargeNetworkSelect.value;
+                const amount = parseFloat(this.state.ui.rechargeAmountStep1.value);
+
+                if (!network || isNaN(amount) || amount <= 0) {
+                    return this.showToast('Please select a method and enter a valid amount.', 'danger');
+                }
+                
+                this.state.recharge.network = network;
+                this.state.recharge.amount = amount;
+
+                this.showRechargeStep2(network, amount);
+            },
+            
+            showRechargeStep1() {
+                this.state.ui.rechargeModalTitle.textContent = 'Recharge PKR';
+                this.state.ui.rechargeStep1.style.display = 'block';
+                this.state.ui.rechargeStep2.style.display = 'none';
+                this.showModal('recharge-modal');
+                // Optional: reset amount/network fields here if needed
+            },
+
+            showRechargeStep2(network, amount) {
+                const method = this.config.PAYMENT_METHODS[network];
+                if (!method) {
+                    this.showToast('Invalid payment method selected.', 'danger');
+                    this.showRechargeStep1();
+                    return;
+                }
+
+                this.state.ui.rechargeModalTitle.textContent = `Recharge PKR (${method.name})`;
+                this.state.ui.rechargeStep1.style.display = 'none';
+                this.state.ui.rechargeStep2.style.display = 'block';
+
+                this.state.ui.rechargeNetworkHidden.value = network;
+                this.state.ui.rechargeAmountHidden.value = amount;
+
+                this.state.ui.rechargeDetailsContainer.innerHTML = `
+                    <p class="info-text">Target Amount to Send: <b style="color: var(--primary-accent);">PKR ${amount.toLocaleString()}</b></p>
+                    <div class="address-box" style="margin-top: 15px;" data-account-holder="${method.accountHolder}">
+                        <span class="address" id="recharge-account-number" style="font-size: 1.1em; font-weight: 600;">${method.accountNumber}</span>
+                        <button class="copy-btn" tabindex="-1" data-copy-target-id="recharge-account-number"><i class="far fa-copy"></i></button>
+                    </div>
+                    <p class="info-text" style="margin-bottom: 15px;">**Account Holder: <b style="color: var(--text-primary);">${method.accountHolder}</b>**</p>
+
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <img src="${method.qrUrl}" 
+                             alt="${method.name} QR Code for ${method.accountHolder}" 
+                             style="width: 200px; height: auto; border-radius: 10px; border: 3px solid var(--primary-accent); max-width: 80%;">
+                        <p class="info-text" style="font-size: 0.8em; margin-top: 5px;">(QR code for ${method.accountHolder}'s ${method.name} account)</p>
+                    </div>
+                `;
+            },
+            
             // MODIFIED handleRecharge for PKR - Sets status to 'pending'
             async handleRecharge(e) { 
                 e.preventDefault(); 
                 const btn = e.currentTarget.querySelector('button'); 
-                const pkrAmount = parseFloat(document.getElementById('recharge-amount').value); 
+                
+                // Get data from hidden fields (set in Step 2)
+                const pkrAmount = parseFloat(this.state.ui.rechargeAmountHidden.value); 
+                const network = this.state.ui.rechargeNetworkHidden.value;
+                
                 const senderAccount = document.getElementById('sender-account-number').value.trim();
                 const txId = document.getElementById('transaction-id').value.trim(); 
                 
-                // Hardcoded to Easypaisa
-                const network = 'easypaisa';
-                
+                // Basic validation (more checks were done in Step 1)
                 if (!txId || !senderAccount || isNaN(pkrAmount) || pkrAmount <= 0) {
-                    return this.showToast('Please provide valid PKR amount, Sender Account, and Transaction ID.', 'danger'); 
+                    return this.showToast('Please provide valid details and Transaction ID.', 'danger'); 
                 }
                 if (!/^\d{11}$/.test(senderAccount)) {
                     return this.showToast('Sender Account Number must be 11 digits.', 'danger'); 
@@ -2532,6 +2638,8 @@
                 this.setButtonLoading(btn, true); 
 
                 try { 
+                    const targetAccount = this.config.PAYMENT_METHODS[network].accountNumber;
+
                     await this.db.ref('recharge_requests').push({ 
                         userId: this.state.currentUser.uid, 
                         userEmail: this.state.currentUser.email, 
@@ -2539,6 +2647,7 @@
                         network, 
                         txId, 
                         senderAccount,
+                        targetAccount, // For Admin reference
                         status: 'pending', 
                         timestamp: firebase.database.ServerValue.TIMESTAMP 
                     }); 
@@ -2548,6 +2657,7 @@
                     
                     this.showToast(`Recharge request for PKR ${pkrAmount.toLocaleString()} submitted! Admin will process it shortly.`, 'success'); 
                     this.state.ui.rechargeForm.reset(); 
+                    this.state.ui.rechargeStep1Form.reset();
                     this.hideModal('recharge-modal'); 
                 } catch (err) { 
                     this.showToast(`Request failed: ${err.message}`, 'danger'); 
@@ -2965,9 +3075,9 @@
                 
                 // --- NEW LOCK/UNLOCK UI LOGIC ---
                 const inviteBox = document.querySelector('#invite-page .content-panel.invite-box');
-                const networkPanel = document.querySelector('#invite-page .content-panel:last-child');
+                const networkPanel = document.querySelector('#dynamic-network-map').closest('.content-panel');
                 
-                if (inviteBox) {
+                if (inviteBox && networkPanel) {
                     const lockIcon = `<i class="fas ${isPlanPurchased ? 'fa-lock-open' : 'fa-lock'}"></i>`;
                     const lockColor = isPlanPurchased ? 'var(--success-color)' : 'var(--danger-color)';
                     const lockText = isPlanPurchased ? 'Your Referral System is UNLOCKED!' : 'Referral System is LOCKED!';
@@ -2998,7 +3108,7 @@
                     `;
                     
                     // Hide/Show network map based on plan purchase
-                    networkPanel.style.opacity = isPlanPurchased ? '1' : '0.5';
+                    networkPanel.style.opacity = isPlanPurchased ? '1' : '0.4';
                     networkPanel.style.pointerEvents = isPlanPurchased ? 'auto' : 'none';
                 }
                 // --- END NEW LOCK/UNLOCK UI LOGIC ---
@@ -3379,7 +3489,34 @@
             },
 
             // --- [7] HELPERS ---
-            copyToClipboard(textToCopy, elementToUpdate = null) { if (!textToCopy) return; navigator.clipboard.writeText(textToCopy).then(() => { this.showToast('Copied!', 'success'); if (elementToUpdate) { const originalHTML = elementToUpdate.innerHTML; if(elementToUpdate.classList.contains('address-box')) { const icon = elementToUpdate.querySelector('.copy-btn i'); const originalIconClass = icon.className; elementToUpdate.classList.add('copied'); icon.className = 'fas fa-check'; setTimeout(() => { elementToUpdate.classList.remove('copied'); icon.className = originalIconClass; }, 2500); } else { elementToUpdate.innerHTML = `<span class="btn-text"><i class="fas fa-check"></i> Copied!</span>`; elementToUpdate.disabled = true; setTimeout(() => { elementToUpdate.innerHTML = originalHTML; elementToUpdate.disabled = false; }, 2000); } } }).catch(() => this.showToast('Failed to copy.', 'danger')); },
+            copyToClipboard(textToCopy, elementToUpdate = null, customMessage = 'Copied!') { 
+                if (!textToCopy) return; 
+                navigator.clipboard.writeText(textToCopy).then(() => { 
+                    this.showToast(customMessage, 'success'); 
+                    if (elementToUpdate) { 
+                        // Specific handler for the address box
+                        if(elementToUpdate.classList.contains('address-box')) { 
+                            const icon = elementToUpdate.querySelector('.copy-btn i'); 
+                            const originalIconClass = icon.className; 
+                            elementToUpdate.classList.add('copied'); 
+                            icon.className = 'fas fa-check'; 
+                            setTimeout(() => { 
+                                elementToUpdate.classList.remove('copied'); 
+                                icon.className = originalIconClass; 
+                            }, 2500); 
+                        } else { 
+                            // General button handler
+                            const originalHTML = elementToUpdate.innerHTML; 
+                            elementToUpdate.innerHTML = `<span class="btn-text"><i class="fas fa-check"></i> Copied!</span>`; 
+                            elementToUpdate.disabled = true; 
+                            setTimeout(() => { 
+                                elementToUpdate.innerHTML = originalHTML; 
+                                elementToUpdate.disabled = false; 
+                            }, 2000); 
+                        } 
+                    } 
+                }).catch(() => this.showToast('Failed to copy.', 'danger')); 
+            },
             initDraggableFAB() { const fab = this.state.ui.telegramFab; if (!fab) return; let isDragging = false, hasMoved = false, offsetX, offsetY; const getCoords = e => e.touches ? e.touches[0] : e; const start = e => { isDragging = true; hasMoved = false; fab.classList.add('dragging'); const c = getCoords(e); offsetX = c.clientX - fab.offsetLeft; offsetY = c.clientY - fab.offsetTop; document.addEventListener('mousemove', move); document.addEventListener('touchmove', move, { passive: false }); document.addEventListener('mouseup', end); document.addEventListener('touchend', end); }; const move = e => { if (!isDragging) return; e.preventDefault(); hasMoved = true; const c = getCoords(e); fab.style.left = `${Math.max(0, Math.min(c.clientX - offsetX, window.innerWidth - fab.offsetWidth))}px`; fab.style.top = `${Math.max(0, Math.min(c.clientY - offsetY, window.innerHeight - fab.offsetHeight))}px`; fab.style.right = 'auto'; fab.style.bottom = 'auto'; }; const end = () => { isDragging = false; fab.classList.remove('dragging'); document.removeEventListener('mousemove', move); document.removeEventListener('touchmove', move); document.removeEventListener('mouseup', end); document.removeEventListener('touchend', end); }; fab.addEventListener('mousedown', start); fab.addEventListener('touchstart', start); fab.addEventListener('click', e => { if (hasMoved) e.preventDefault(); }); },
             maskEmail(email) {
                 if (!email || email.indexOf('@') === -1) return email;
