@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1559,6 +1560,9 @@
                 </div>
                 <button class="btn btn-claim full-width" id="collect-bonus-btn" disabled><span class="btn-text">Collect Income</span><div class="spinner-sm"></div></button>
             </div>
+            
+            <!-- NEW: Referral Lock/Unlock Status Panel will be inserted here by JS -->
+
             <div class="content-panel invite-box">
                 <div class="icon"><i class="fas fa-cubes"></i></div>
                 <p>Share your link. You earn commissions from your direct referrals and indirect referrals! <b>(A plan purchase is required to activate bonus earning)</b></p>
@@ -1568,7 +1572,7 @@
             
             <!-- [START DYNAMIC BLOCK] Network Diagram -->
             <div class="content-panel">
-                <h3>Your Network</h3>
+                <h3>Your Network Map</h3>
                 <p class="info-text" style="margin-bottom: 20px; text-align: center;">Click on any network level card below to view all the members in that level.</p>
                 <div id="dynamic-network-map" class="dynamic-network-container">
                     <!-- Root Node (You) -->
@@ -2143,7 +2147,7 @@
                 
                 // Update component-specific UIs
                 this.updatePlanUI(); 
-                this.updateNetworkUI(); 
+                this.updateNetworkUI(); // MODIFIED
                 this.updateFreeMiningUI();
                 this.updateNFTRequirementUI(); 
                 this.updateMyNftsUI();
@@ -2694,7 +2698,7 @@
                     
                     // Must be called AFTER the investment is successfully processed
                     if (isFirstInvestment) { 
-                        // **This is the logic that gates the invitation bonus earning**
+                        // **This is the logic that gates the invitation bonus earning and activates referrals**
                         await this.processFirstInvestmentAndReferrals(planCost); 
                     }
                     
@@ -2703,6 +2707,54 @@
                 } catch (error) { 
                     this.showToast(`Error: ${error.message}`, 'danger');
                 }
+            },
+            
+            // NEW/MODIFIED: Logic for processing a user's first investment (to activate referral earning for ancestors)
+            async processFirstInvestmentAndReferrals(investmentAmount) {
+                const userUid = this.state.currentUser.uid;
+                const userData = this.state.userData;
+                const ancestry = userData.ancestry || {};
+                const updates = {};
+                
+                // 1. Mark user as having completed their first investment to unlock *their* bonus earning
+                updates[`/users/${userUid}/plans/firstInvestmentProcessed`] = true;
+
+                // 2. Distribute bonuses to ancestors and mark downlines as 'active'
+                for (let i = 1; i <= this.config.REFERRAL_LEVELS; i++) {
+                    const ancestorUid = ancestry[`level_${i}`];
+                    if (!ancestorUid) break; 
+                    
+                    const isDirect = i === 1; // Ancestor at level 1 is the direct referrer
+                    const bonusRate = isDirect ? this.config.REFERRAL_DIRECT_BONUS_PERCENT : this.config.REFERRAL_INDIRECT_BONUS_PERCENT;
+                    const bonusAmount = investmentAmount * bonusRate;
+                    
+                    // Increment the ancestor's unclaimed bonus
+                    updates[`/users/${ancestorUid}/unclaimed_invite_bonus`] = firebase.database.ServerValue.increment(bonusAmount);
+
+                    // Log the bonus transaction on the ancestor's side
+                    // Note: We cannot use logTransaction here as it's a batch update. We'll simulate a log.
+                    await this.db.ref(`transactions/${ancestorUid}`).push({
+                        type: 'invite_bonus',
+                        amount: bonusAmount,
+                        details: { 
+                            reason: `Referral Bonus L${i} from ${userData.username || this.maskEmail(userData.email)}'s first investment`,
+                            referredUserUid: userUid,
+                            status: 'approved'
+                        },
+                        timestamp: firebase.database.ServerValue.TIMESTAMP
+                    });
+
+                    // Update ancestor's active referral count (only on the direct referrer)
+                    if (isDirect) {
+                        // Mark the direct referrer's active_referrals_count and miningGateProgress
+                        updates[`/users/${ancestorUid}/active_referrals_count`] = firebase.database.ServerValue.increment(1);
+                        updates[`/users/${ancestorUid}/miningGateProgress/activatedReferralsCount`] = firebase.database.ServerValue.increment(1);
+                        updates[`/users/${ancestorUid}/miningGateProgress/activatedReferralUIDs/${userUid}`] = true;
+                    }
+                }
+
+                // 3. Commit all updates
+                await this.db.ref().update(updates);
             },
             
             // MODIFIED: Only Pro Plan earns daily profit (1%), Basic Plan has 0%
@@ -2906,9 +2958,51 @@
             // MODIFIED: Function to update the referral bonus UI AND render the dynamic network cards
             updateNetworkUI() {
                 const unclaimedBonus = this.state.userData.unclaimed_invite_bonus || 0;
+                const isPlanPurchased = this.state.userData.plans?.firstInvestmentProcessed === true; // The key check
+                
                 this.state.ui.unclaimedBonusAmount.textContent = `PKR ${unclaimedBonus.toLocaleString()}`;
                 this.state.ui.collectBonusBtn.disabled = unclaimedBonus <= 0;
                 
+                // --- NEW LOCK/UNLOCK UI LOGIC ---
+                const inviteBox = document.querySelector('#invite-page .content-panel.invite-box');
+                const networkPanel = document.querySelector('#invite-page .content-panel:last-child');
+                
+                if (inviteBox) {
+                    const lockIcon = `<i class="fas ${isPlanPurchased ? 'fa-lock-open' : 'fa-lock'}"></i>`;
+                    const lockColor = isPlanPurchased ? 'var(--success-color)' : 'var(--danger-color)';
+                    const lockText = isPlanPurchased ? 'Your Referral System is UNLOCKED!' : 'Referral System is LOCKED!';
+                    const instructions = isPlanPurchased 
+                        ? 'Share your link to start earning commissions immediately from your direct and indirect network.'
+                        : 'You must purchase an Earning Plan (Basic or Pro) to activate your referral system and start earning commissions.';
+
+                    let lockPanel = inviteBox.parentNode.querySelector('#referral-lock-status');
+                    if (!lockPanel) {
+                        lockPanel = document.createElement('div');
+                        lockPanel.id = 'referral-lock-status';
+                        lockPanel.className = 'content-panel invite-box';
+                        // Insert before the original invite code box
+                        inviteBox.parentNode.insertBefore(lockPanel, inviteBox);
+                    }
+                    
+                    lockPanel.style.marginTop = '0'; // Adjust spacing
+                    lockPanel.style.marginBottom = '25px';
+                    lockPanel.style.border = `2px solid ${lockColor}`;
+                    lockPanel.style.boxShadow = `0 0 15px ${lockColor.replace('var(--', 'rgba(').replace(')', ', 0.5)')}`;
+
+                    lockPanel.innerHTML = `
+                        <div class="icon" style="color: ${lockColor}; text-shadow: 0 0 20px ${lockColor.replace('var(--', 'rgba(').replace(')', ', 0.5)')};">
+                            ${lockIcon}
+                        </div>
+                        <h3 style="background: none; -webkit-text-fill-color: ${lockColor}; border-bottom: none; margin-bottom: 5px;">${lockText}</h3>
+                        <p>${instructions}</p>
+                    `;
+                    
+                    // Hide/Show network map based on plan purchase
+                    networkPanel.style.opacity = isPlanPurchased ? '1' : '0.5';
+                    networkPanel.style.pointerEvents = isPlanPurchased ? 'auto' : 'none';
+                }
+                // --- END NEW LOCK/UNLOCK UI LOGIC ---
+
                 this.renderNetworkDiagram();
             },
 
