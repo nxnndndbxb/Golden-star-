@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -906,7 +905,7 @@
         /* --- Plan Card Styling (Kept as is) --- */
         .plan-series-grid { 
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            grid-template-columns: 1fr; /* Single column for two plans */
             gap: 20px; 
         }
         
@@ -1099,7 +1098,7 @@
         <main class="landing-main">
             <section class="landing-hero">
                 <h1>Unlock the Future of Digital Wealth</h1>
-                <p>Welcome to Golden Star ⭐, the next-generation ecosystem where your digital assets work for you. Engage in powerful earning plans, and build your network to maximize your USD earnings.</p>
+                <p>Welcome to Golden Star ⭐, the next-generation ecosystem where your digital assets work for you. Engage in powerful earning plans, and build your network to maximize your PKR earnings.</p>
                 <button class="btn enter-app-btn">Get Started Now</button>
                 <div class="scroll-down-indicator">
                     <i class="fas fa-chevron-down"></i>
@@ -1108,47 +1107,42 @@
             
             <section class="landing-section">
                 <div class="landing-section-header">
-                    <h2>Perpetual Earning Engine</h2>
-                    <p>Activate our powerful earning engine with a one-time investment and earn a continuous profit for a lifetime. Only Plan 20 Pro offers an unconditional 5% daily earning.</p>
+                    <h2>Smart Earning Plans</h2>
+                    <p>Choose from our two exclusive plans designed to maximize your earnings through both direct commissions and daily returns.</p>
                 </div>
                 <div class="feature-grid">
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-rocket"></i></div>
-                        <h3>Lifetime Earnings</h3>
-                        <p>Invest once, earn forever. Our plans are designed for perpetual growth and passive income.</p>
+                        <h3>Basic Plan</h3>
+                        <p>Perfect for beginners - get access to invitation rewards and build your network.</p>
+                        <div class="highlight">PKR 670 | Invitation Rewards Only</div>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                        <h3>Conditional Returns</h3>
-                        <p>Most plans only allow earning from direct/indirect commissions. Purchase Plan 20 Pro for a guaranteed daily return.</p>
-                        <div class="highlight">0% Daily Profit (Unless Pro)</div>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-                        <h3>Pro-Earning Override</h3>
-                        <p>Purchase the final plan (Plan 20 Pro) to instantly unlock a massive 5% daily earning without needing any referrals!</p>
-                        <div class="highlight">Plan 20 Pro = 5% Daily Profit</div>
+                        <h3>Pro Earning Plan</h3>
+                        <p>Advanced plan with daily 1% non-working income plus invitation rewards.</p>
+                        <div class="highlight">PKR 12,500 | 1% Daily + Rewards</div>
                     </div>
                 </div>
             </section>
 
             <section class="landing-section">
                 <div class="landing-section-header">
-                    <h2>Powerful Blockchain Network</h2>
-                    <p>Build your community and earn significant one-time commissions. Our multi-level block system rewards you for every new member you bring into the ecosystem.</p>
+                    <h2>Powerful Network System</h2>
+                    <p>Build your community and earn significant commissions. Our multi-level block system rewards you for every new member you bring into the ecosystem.</p>
                 </div>
                  <div class="feature-grid">
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-cubes"></i></div>
-                        <h3>Direct Block Commission</h3>
-                        <p>Earn a massive 50% commission on the first investment made by anyone you directly invite to the platform. (Requires your own plan purchase first).</p>
-                        <div class="highlight">50% Direct Bonus</div>
+                        <h3>Direct Commission</h3>
+                        <p>Earn generous commissions on investments made by anyone you directly invite to the platform.</p>
+                        <div class="highlight">Direct Bonus</div>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fas fa-link"></i></div>
-                        <h3>Deep Network Rewards</h3>
-                        <p>Your earnings don't stop at your direct connections. Earn a 3% commission from indirect blocks up to 9 levels deep (one-time)!</p>
-                        <div class="highlight">9 Blocks Deep | 3% Indirect</div>
+                        <h3>Network Rewards</h3>
+                        <p>Your earnings don't stop at your direct connections. Earn commissions from indirect referrals.</p>
+                        <div class="highlight">Multi-Level Rewards</div>
                     </div>
                 </div>
             </section>
@@ -1282,37 +1276,31 @@
             
             <!-- User Stats -->
             <div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 30px;">
-                <div class="stat-card"><div class="label">Your Wallet (USD)</div><div class="value" id="home-usd-balance">$0.00</div></div>
                 <div class="stat-card"><div class="label">Your Wallet (PKR)</div><div class="value" id="home-pkr-balance">PKR 0</div></div>
-                <div class="stat-card" style="grid-column: span 2;"><div class="label">Your Holdings Value (USD)</div><div class="value" id="home-holdings-value">$0.00</div></div>
+                <div class="stat-card"><div class="label">Active Plan</div><div class="value" id="home-active-plan">None</div></div>
             </div>
 
             <!-- MODIFIED: Your Active Plan Status Panel -->
             <div class="content-panel" id="active-plan-status" style="display: none;">
                 <h3>Your Active Plan Status</h3>
                 <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
-                    <div class="stat-card"><span class="label">Total Investment</span><span class="value" id="plan-investment-value">$0.00</span></div>
-                    <div class="stat-card"><span class="label">Daily Profit Rate</span><span class="value profit" id="plan-profit-rate">$0.00</span></div>
-                    <!-- REMOVED Ref Progress stat card as it's no longer relevant for Plan Earning -->
+                    <div class="stat-card"><span class="label">Plan Investment</span><span class="value" id="plan-investment-value">PKR 0</span></div>
+                    <div class="stat-card"><span class="label">Daily Profit Rate</span><span class="value profit" id="plan-profit-rate">PKR 0</span></div>
                 </div>
-                <!-- NEW Stat Card for Accumulated Profit (Moved out of grid for better display) -->
+                <!-- NEW Stat Card for Accumulated Profit -->
                  <div class="stat-card" style="grid-column: span 2; margin-top: 20px;">
                     <div class="label">Accumulated Profit</div>
-                    <div class="value profit" id="plan-accumulated-profit" style="color: var(--success-color);">$0.000000</div>
+                    <div class="value profit" id="plan-accumulated-profit" style="color: var(--success-color);">PKR 0</div>
                  </div>
                 <div class="wallet-actions" style="margin-top: 25px;">
                     <button class="btn full-width" id="claim-plan-profit-btn" disabled style="flex-grow: 1;"><span class="btn-text"><i class="fas fa-hand-holding-dollar"></i> Claim Profit</span><div class="spinner-sm"></div></button>
-                    <!-- NEW: Upgrade Plan Button -->
-                    <button class="btn full-width" id="upgrade-plan-btn" style="background: linear-gradient(45deg, var(--background-secondary), var(--surface-bg)); color: var(--text-primary); border: 1px solid var(--primary-accent); flex-grow: 1;">
-                        <span class="btn-text"><i class="fas fa-rocket"></i> Upgrade Plan</span>
-                    </button>
                 </div>
             </div>
             
-            <!-- New Plans Section (MODIFIED GRID CLASS) - Always visible for purchase/upgrade -->
+            <!-- New Plans Section - Always visible for purchase -->
             <div class="content-panel" id="marketing-plans-panel">
-                <h3>Perpetual Earning Plans</h3>
-                <p class="info-text" style="margin-bottom: 25px;">Available: <b id="plans-page-pkr-balance">PKR 0</b> | <b id="plans-page-usd-balance">$0.00</b>. Only Plan 20 Pro offers 5% daily earnings.</p>
+                <h3>Smart Earning Plans</h3>
+                <p class="info-text" style="margin-bottom: 25px;">Available Balance: <b id="plans-page-pkr-balance">PKR 0</b></p>
                 <div id="marketing-plans-container" class="plan-series-grid">
                     <!-- Plans will be populated by JS -->
                 </div>
@@ -1335,7 +1323,6 @@
             </div>
         </section>
 
-
         <!-- [NEW] Ranking Page (Updated Style) -->
         <section id="ranking-page" class="page">
             <div class="page-header">
@@ -1343,11 +1330,11 @@
             </div>
             <div class="content-panel">
                 <h3>Top 50 Crypto Titans</h3>
-                <p class="info-text" style="margin-bottom: 25px;">Ranked by Estimated Net Worth (Investment + Profit).</p>
+                <p class="info-text" style="margin-bottom: 25px;">Ranked by Estimated Net Worth.</p>
                 <div class="ranking-header-row" style="display: flex; justify-content: space-between; padding: 10px 15px; background-color: var(--background-secondary); border-radius: 12px; margin-bottom: 10px; font-weight: 600; color: var(--text-secondary);">
                     <span style="width: 15%;">Rank</span>
                     <span style="width: 40%;">User</span>
-                    <span style="width: 45%; text-align: right;">Net Worth (USD)</span>
+                    <span style="width: 45%; text-align: right;">Net Worth (PKR)</span>
                 </div>
                 <!-- Updated message for clear data state -->
                 <ul id="ranking-list" class="history-list" style="max-height: 60vh; padding-right: 0;">
@@ -1359,7 +1346,7 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="label">Your Net Worth</div>
-                        <div class="value" id="my-net-worth-value">$0.00</div>
+                        <div class="value" id="my-net-worth-value">PKR 0</div>
                     </div>
                     <div class="stat-card">
                         <span class="label">Your Global Rank</span>
@@ -1377,7 +1364,7 @@
             <div class="content-panel">
                 
                 <div class="balance-display"><span class="amount" id="wallet-pkr-balance">PKR 0</span><span class="currency">Available PKR Balance</span></div>
-                <div class="balance-on-hold" id="wallet-on-hold-balance">On Hold (USD): $0.00</div>
+                <div class="balance-on-hold" id="wallet-on-hold-balance">On Hold: PKR 0</div>
                 <!-- MODIFIED BUTTONS STYLE/SIZE -->
                 <div class="wallet-actions">
                     <button class="btn btn-buy" id="recharge-btn-modal" style="border-radius: 14px;"><i class="fas fa-plus-circle"></i>&nbsp; Recharge (PKR)</button>
@@ -1413,22 +1400,22 @@
             </div>
             <div class="content-panel">
                 <div class="bonus-display">
-                    <div class="label">Unclaimed Block Income (USD)</div>
-                    <div class="amount" id="unclaimed-bonus-amount">$0.00</div>
+                    <div class="label">Unclaimed Network Income (PKR)</div>
+                    <div class="amount" id="unclaimed-bonus-amount">PKR 0</div>
                 </div>
                 <button class="btn btn-claim full-width" id="collect-bonus-btn" disabled><span class="btn-text">Collect Income</span><div class="spinner-sm"></div></button>
             </div>
             <div class="content-panel invite-box">
                 <div class="icon"><i class="fas fa-cubes"></i></div>
-                <p>Share your link. You earn a one-time <b>50%</b> commission from your direct block's first investment and a one-time <b>3%</b> from indirect blocks up to 9 levels deep! <b>(A plan purchase is required to activate bonus earning)</b></p>
+                <p>Share your link. You earn commissions from your direct referrals and indirect referrals! <b>(A plan purchase is required to activate bonus earning)</b></p>
                 <div class="invite-code" id="invite-link-display">Generating...</div>
                 <button class="btn full-width" id="copy-invite-link-btn"><span class="btn-text"><i class="fas fa-copy"></i>&nbsp; Copy My Link</span></button>
             </div>
             
             <!-- [START DYNAMIC BLOCK] Network Diagram -->
             <div class="content-panel">
-                <h3>Your Block Network</h3>
-                <p class="info-text" style="margin-bottom: 20px; text-align: center;">Click on any block level card below to view all the members in that block.</p>
+                <h3>Your Network</h3>
+                <p class="info-text" style="margin-bottom: 20px; text-align: center;">Click on any network level card below to view all the members in that level.</p>
                 <div id="dynamic-network-map" class="dynamic-network-container">
                     <!-- Root Node (You) -->
                     <div class="network-root-node">
@@ -1494,7 +1481,7 @@
             <div class="content-panel">
                 <h3>Our Vision: The Future of Digital Networks</h3>
                 <p class="info-text" style="text-align: left; margin-bottom: 20px;">Our platform was founded on the principle of bridging the gap between the stability of traditional finance and the limitless potential of digital asset management. Our mission is to create an accessible, secure, and profitable ecosystem for everyone, from novices to seasoned investors.</p>
-                <p class="info-text" style="text-align: left;">We believe in empowering our community through innovative solutions like our Lifetime Earning Plans and NFT protocols. By rewarding users for their participation and loyalty, we are building a robust and self-sustaining digital economy. Join us as we redefine the future of wealth management.</p>
+                <p class="info-text" style="text-align: left;">We believe in empowering our community through innovative solutions like our Earning Plans and network rewards. By rewarding users for their participation and loyalty, we are building a robust and self-sustaining digital economy. Join us as we redefine the future of wealth management.</p>
 
                 <div class="fbr-certificate">
                     <h4>Federal Board of Revenue</h4>
@@ -1524,7 +1511,7 @@
             <!-- END NEW: NFT Requirement Panel -->
 
             <div class="content-panel">
-                <p class="info-text" style="margin-bottom: 25px;">Purchase an NFT to earn a 3% daily return on your investment, up to a total of 300%. Your available balance is <b id="nft-page-usd-balance">$0.00</b>.</p>
+                <p class="info-text" style="margin-bottom: 25px;">Purchase an NFT to earn daily returns on your investment. Your available balance is <b id="nft-page-pkr-balance">PKR 0</b>.</p>
                 <button class="btn full-width" id="view-my-nfts-btn"><span class="btn-text">View My NFTs (Achieved)</span></button>
             </div>
             <div class="nft-grid" id="nft-grid-container">
@@ -1532,17 +1519,17 @@
                 <div class="nft-card" id="nft-bronze">
                     <div class="nft-visual"><i class="fas fa-shield-alt"></i></div>
                     <h4>Bronze Miner NFT</h4>
-                    <p class="price-range">$10 - $30</p>
+                    <p class="price-range">PKR 2,800 - PKR 8,400</p>
                     <ul class="nft-details">
                         <li><span>Daily Earning</span><span>3%</span></li>
                         <li><span>Total Return</span><span>300%</span></li>
                         <li><span>Duration</span><span>100 Days</span></li>
                     </ul>
                     <div class="input-group">
-                        <input type="number" placeholder="Amount (10-30)" class="nft-buy-amount" min="10" max="30">
-                        <i class="fa-solid fa-dollar-sign"></i> <!-- Static Icon (Right) -->
+                        <input type="number" placeholder="Amount (2800-8400)" class="nft-buy-amount" min="2800" max="8400">
+                        <i class="fa-solid fa-money-bill"></i> <!-- Static Icon (Right) -->
                     </div>
-                    <button class="btn btn-buy-nft" data-nft-id="bronze" data-min="10" data-max="30" style="border-radius: 14px;">
+                    <button class="btn btn-buy-nft" data-nft-id="bronze" data-min="2800" data-max="8400" style="border-radius: 14px;">
                         <span class="btn-text">Buy Now</span><div class="spinner-sm"></div>
                     </button>
                 </div>
@@ -1550,17 +1537,17 @@
                 <div class="nft-card" id="nft-silver">
                     <div class="nft-visual"><i class="fas fa-star-of-david"></i></div>
                     <h4>Silver Prospector NFT</h4>
-                    <p class="price-range">$31 - $50</p>
+                    <p class="price-range">PKR 8,680 - PKR 14,000</p>
                     <ul class="nft-details">
                         <li><span>Daily Earning</span><span>3%</span></li>
                         <li><span>Total Return</span><span>300%</span></li>
                         <li><span>Duration</span><span>100 Days</span></li>
                     </ul>
                     <div class="input-group">
-                        <input type="number" placeholder="Amount (31-50)" class="nft-buy-amount" min="31" max="50">
-                        <i class="fa-solid fa-dollar-sign"></i> <!-- Static Icon (Right) -->
+                        <input type="number" placeholder="Amount (8680-14000)" class="nft-buy-amount" min="8680" max="14000">
+                        <i class="fa-solid fa-money-bill"></i> <!-- Static Icon (Right) -->
                     </div>
-                    <button class="btn btn-buy-nft" data-nft-id="silver" data-min="31" data-max="50" style="border-radius: 14px;">
+                    <button class="btn btn-buy-nft" data-nft-id="silver" data-min="8680" data-max="14000" style="border-radius: 14px;">
                         <span class="btn-text">Buy Now</span><div class="spinner-sm"></div>
                     </button>
                 </div>
@@ -1568,17 +1555,17 @@
                 <div class="nft-card" id="nft-gold">
                     <div class="nft-visual"><i class="fas fa-crown"></i></div>
                     <h4>Gold Titan NFT</h4>
-                    <p class="price-range">$51 - $100</p>
+                    <p class="price-range">PKR 14,280 - PKR 28,000</p>
                     <ul class="nft-details">
                         <li><span>Daily Earning</span><span>3%</span></li>
                         <li><span>Total Return</span><span>300%</span></li>
                         <li><span>Duration</span><span>100 Days</span></li>
                     </ul>
                     <div class="input-group">
-                        <input type="number" placeholder="Amount (51-100)" class="nft-buy-amount" min="51" max="100">
-                        <i class="fa-solid fa-dollar-sign"></i> <!-- Static Icon (Right) -->
+                        <input type="number" placeholder="Amount (14280-28000)" class="nft-buy-amount" min="14280" max="28000">
+                        <i class="fa-solid fa-money-bill"></i> <!-- Static Icon (Right) -->
                     </div>
-                    <button class="btn btn-buy-nft" data-nft-id="gold" data-min="51" data-max="100" style="border-radius: 14px;">
+                    <button class="btn btn-buy-nft" data-nft-id="gold" data-min="14280" data-max="28000" style="border-radius: 14px;">
                         <span class="btn-text">Buy Now</span><div class="spinner-sm"></div>
                     </button>
                 </div>
@@ -1643,28 +1630,6 @@
     </div>
     <!-- END MODAL FOR FORGOT PASSWORD -->
 
-
-    <!-- MODAL FOR PLAN PURCHASE CONFIRMATION -->
-    <div id="plan-purchase-modal" class="modal-overlay">
-        <div class="modal-content content-panel">
-            <button class="modal-close-btn" data-modal-id="plan-purchase-modal">×</button>
-            <h3 id="plan-modal-title">Confirm Plan Purchase</h3>
-            <p class="info-text">You are about to purchase the <b id="plan-modal-name">...</b> plan.</p>
-            <p class="info-text" style="margin-bottom: 20px;">Available: <b id="plan-modal-pkr-balance">PKR 0</b> | <b id="plan-modal-usd-balance">$0.00</b></p>
-            <form id="plan-purchase-form">
-                <div class="input-group">
-                    <input type="text" id="plan-cost-display" readonly>
-                    <i class="fa-solid fa-money-bill-wave"></i> <!-- Static Icon (Right) -->
-                </div>
-                <input type="hidden" id="plan-purchase-usd-cost">
-                <input type="hidden" id="plan-purchase-plan-id">
-                <button type="submit" class="btn full-width" id="confirm-plan-purchase-btn" style="border-radius: 14px;">
-                    <span class="btn-text">Confirm & Purchase</span><div class="spinner-sm"></div>
-                </button>
-            </form>
-        </div>
-    </div>
-    
     <!-- MODIFIED RECHARGE MODAL FOR PKR - ONLY EASYPAISA -->
     <div id="recharge-modal" class="modal-overlay">
         <div class="modal-content content-panel">
@@ -1740,7 +1705,7 @@
                     <span class="btn-text">Request Withdrawal</span><div class="spinner-sm"></div>
                 </button>
             </form>
-            <p class="info-text">A 5% service fee applies to the USD equivalent. Funds will be processed within 24 hours.</p>
+            <p class="info-text">A 5% service fee applies. Funds will be processed within 24 hours.</p>
         </div>
     </div>
     <!-- END MODIFIED WITHDRAWAL MODAL -->
@@ -1749,10 +1714,10 @@
     <div id="block-list-modal" class="modal-overlay">
         <div class="modal-content content-panel">
             <button class="modal-close-btn" data-modal-id="block-list-modal">×</button>
-            <h3 id="block-list-modal-title">Block Referrals</h3>
+            <h3 id="block-list-modal-title">Network Referrals</h3>
             <ul id="block-list-modal-body" class="history-list" style="padding-right: 0;">
                 <!-- JS will populate this with modal-member-item -->
-                <p class="info-text">No users found at this block level.</p>
+                <p class="info-text">No users found at this network level.</p>
             </ul>
         </div>
     </div>
@@ -1778,58 +1743,31 @@
                     messagingSenderId: "123456789012", // Generic placeholder
                     appId: "1:123456789012:web:abcdefg123456789" // Generic placeholder
                 },
-                PKR_TO_USD_RATE: 280, // Conversion rate for display purposes (1 USD = 280 PKR)
                 WITHDRAWAL_FEE_PERCENT: 0.05,
                 PRELOADER_TIMEOUT: 8000,
                 
                 // --- MODIFIED PLAN CONFIG ---
-                PLAN_DAILY_RATE_PERCENT: 0.03, // 3% - No longer used for main daily earning
-                PLAN_DAILY_RATE_PRO_PERCENT: 0.05, // 5% - Only for Plan 20 Pro
-                // REQUIRED_ACTIVE_REFERRALS_FOR_3_PERCENT: 2, // NO LONGER NEEDED
-                PLAN_20_ID: 20, 
-                MINIMUM_PROFIT_CLAIM_USD: 0.000001,
+                BASIC_PLAN_COST: 670,
+                PRO_PLAN_COST: 12500,
+                PRO_PLAN_DAILY_RATE: 0.01, // 1% daily
+                MINIMUM_PROFIT_CLAIM: 1, // PKR 1 minimum claim
                 // --- END MODIFIED PLAN CONFIG ---
                 
-                // Referral config (kept to support 10 levels: 1 Direct + 9 Indirect)
-                REFERRAL_LEVELS: 9, // This is the depth of indirect bonuses (L2-L10)
+                // Referral config
+                REFERRAL_LEVELS: 9,
                 REFERRAL_DIRECT_BONUS_PERCENT: 0.50,
                 REFERRAL_INDIRECT_BONUS_PERCENT: 0.03,
                 
-                // FREE PLAN GATE MODIFIED (kept as is)
+                // FREE PLAN GATE
                 FREE_PLAN_REQUIRED_REFERRALS: 2, 
                 
-                MINING_GATE_INVESTMENT_USD: 5, 
-                MINING_GATE_REQUIRED_REFERRALS: 3, 
                 RANKING_LIMIT: 50,
                 
-                // NFT Config (Kept as is for compatibility)
+                // NFT Config
                 NFT_DAILY_RATE_PERCENT: 0.03, 
                 NFT_TOTAL_RETURN_PERCENT: 3.00, 
                 NFT_DURATION_DAYS: 100,
-                // NEW: NFT Requirement
-                NFT_REQUIRED_ACTIVE_REFERRALS: 10, 
-                
-                // --- MODIFIED MARKETING_PLANS CONFIG ---
-                MARKETING_PLANS: (() => {
-                    const plans = [];
-                    let pkrCost = 630;
-                    for (let i = 1; i <= 20; i++) {
-                        const usdCost = pkrCost / 280; 
-                        const isPlan20 = i === 20;
-                        plans.push({
-                            id: i,
-                            name: i === 1 ? "Plan 1 +series" : `Plan ${i} Pro`, 
-                            pkrCost: pkrCost,
-                            usdCost: parseFloat(usdCost.toFixed(2)),
-                            duration: "Lifetime",
-                            // Plan 20 is 5%, all others are 0% for non-working income
-                            dailyRate: isPlan20 ? 0.05 : 0.00, 
-                        });
-                        pkrCost += 630; 
-                    }
-                    return plans;
-                })(),
-                // --- END MODIFIED MARKETING_PLANS CONFIG ---
+                NFT_REQUIRED_ACTIVE_REFERRALS: 10,
                 
                 // PKR Deposit Info
                 EASYPAISA_ACCOUNT_NUMBER: '03199242314',
@@ -1919,33 +1857,19 @@
                     sidebarLogoutBtn: document.getElementById('sidebar-logout-btn'),
 
                     welcomeUser: document.getElementById('welcome-user'), 
-                    homeUsdBalance: document.getElementById('home-usd-balance'), 
                     homePkrBalance: document.getElementById('home-pkr-balance'), 
-                    homeHoldingsValue: document.getElementById('home-holdings-value'),
+                    homeActivePlan: document.getElementById('home-active-plan'),
                     
                     // New Plan UI Elements
-                    plansPageUsdBalance: document.getElementById('plans-page-usd-balance'),
                     plansPagePkrBalance: document.getElementById('plans-page-pkr-balance'), 
                     marketingPlansContainer: document.getElementById('marketing-plans-container'),
                     marketingPlansPanel: document.getElementById('marketing-plans-panel'),
                     activePlanStatus: document.getElementById('active-plan-status'),
                     planInvestmentValue: document.getElementById('plan-investment-value'),
                     planProfitRate: document.getElementById('plan-profit-rate'),
-                    // planRefProgress: document.getElementById('plan-ref-progress'), // REMOVED
                     planAccumulatedProfit: document.getElementById('plan-accumulated-profit'),
                     claimPlanProfitBtn: document.getElementById('claim-plan-profit-btn'),
-                    upgradePlanBtn: document.getElementById('upgrade-plan-btn'), 
-                    planPurchaseModal: document.getElementById('plan-purchase-modal'),
-                    planModalTitle: document.getElementById('plan-modal-title'),
-                    planModalName: document.getElementById('plan-modal-name'),
-                    planModalUsdBalance: document.getElementById('plan-modal-usd-balance'),
-                    planModalPkrBalance: document.getElementById('plan-modal-pkr-balance'), 
-                    planCostDisplay: document.getElementById('plan-cost-display'),
-                    planPurchaseUsdCost: document.getElementById('plan-purchase-usd-cost'),
-                    planPurchasePlanId: document.getElementById('plan-purchase-plan-id'), 
-                    planPurchaseForm: document.getElementById('plan-purchase-form'),
                     
-                    walletUsdBalance: document.getElementById('wallet-usd-balance'), 
                     walletPkrBalance: document.getElementById('wallet-pkr-balance'), 
                     walletOnHoldBalance: document.getElementById('wallet-on-hold-balance'), 
                     rechargeForm: document.getElementById('recharge-form'), 
@@ -1971,7 +1895,7 @@
 
                     freeMiningProgress: document.getElementById('free-mining-progress'),
                     
-                    nftPageUsdBalance: document.getElementById('nft-page-usd-balance'),
+                    nftPagePkrBalance: document.getElementById('nft-page-pkr-balance'),
                     nftGridContainer: document.getElementById('nft-grid-container'),
                     myNftsListPage: document.getElementById('my-nfts-page'),
                     myNftsList: document.getElementById('my-nfts-list'),
@@ -1984,7 +1908,7 @@
                     // Recharge Modal specific
                     rechargeEasypaisa: document.getElementById('recharge-easypaisa'),
                     
-                    // History List Elements (MODIFIED for combined list)
+                    // History List Elements
                     historyLists: {
                         combined: { list: document.getElementById('history-list-combined'), msg: document.getElementById('no-transactions-msg') },
                     }
@@ -2026,28 +1950,22 @@
 
             updateUI() {
                 if (!this.state.userData) return;
-                const { username, email, uid, referralCode, usd_balance = 0, balance_on_hold = 0 } = this.state.userData;
-                const pkr_balance = usd_balance * this.config.PKR_TO_USD_RATE;
+                const { username, email, uid, referralCode, pkr_balance = 0, balance_on_hold = 0, active_plan } = this.state.userData;
 
-                const formatCurrencyUSD = (num) => `$${Number(num || 0).toFixed(2)}`;
                 const formatCurrencyPKR = (num) => `PKR ${Math.round(Number(num || 0)).toLocaleString()}`;
                 
                 // Common UI elements
                 this.state.ui.welcomeUser.textContent = `Welcome, ${username || email.split('@')[0]}`;
                 
                 // Balances
-                const holdingsValue = this.calculateUserHoldings(this.state.userData);
-                
-                this.state.ui.homeUsdBalance.textContent = formatCurrencyUSD(usd_balance);
                 this.state.ui.homePkrBalance.textContent = formatCurrencyPKR(pkr_balance); 
+                this.state.ui.homeActivePlan.textContent = active_plan || 'None';
                 
                 this.state.ui.walletPkrBalance.textContent = formatCurrencyPKR(pkr_balance); 
-                this.state.ui.walletOnHoldBalance.textContent = `On Hold (USD): ${formatCurrencyUSD(balance_on_hold)}`;
-                this.state.ui.homeHoldingsValue.innerText = formatCurrencyUSD(holdingsValue);
+                this.state.ui.walletOnHoldBalance.textContent = `On Hold: ${formatCurrencyPKR(balance_on_hold)}`;
                 
-                this.state.ui.nftPageUsdBalance.textContent = formatCurrencyUSD(usd_balance);
+                this.state.ui.nftPagePkrBalance.textContent = formatCurrencyPKR(pkr_balance);
                 
-                this.state.ui.plansPageUsdBalance.textContent = formatCurrencyUSD(usd_balance);
                 this.state.ui.plansPagePkrBalance.textContent = formatCurrencyPKR(pkr_balance); 
                 
                 // Profile Page & Sidebar
@@ -2072,16 +1990,16 @@
             },
 
             calculateUserHoldings(userData) {
-                const planInvestment = userData.plans?.totalInvestmentUSD || 0;
-                const planProfit = userData.plans?.totalProfitGeneratedUSD || 0;
+                const planInvestment = userData.plans?.totalInvestmentPKR || 0;
+                const planProfit = userData.plans?.totalProfitGeneratedPKR || 0;
                 let nftValue = 0;
                 if (userData.nfts) {
                     Object.values(userData.nfts).forEach(nft => {
                         nftValue += (nft.investment || 0) + (nft.totalProfitClaimed || 0); 
                     });
                 }
-                // Holdings = Liquid USD + Plan Investment + Plan Profit + NFT Value
-                return (userData.usd_balance || 0) + planInvestment + planProfit + nftValue;
+                // Holdings = Liquid PKR + Plan Investment + Plan Profit + NFT Value
+                return (userData.pkr_balance || 0) + planInvestment + planProfit + nftValue;
             },
 
             // MODIFIED: Consolidate all history into one list + add status styling
@@ -2121,19 +2039,11 @@
                     // Updated icons for transaction types
                     const icons = { deposit: 'fa-arrow-down', withdrawal: 'fa-paper-plane', bonus: 'fa-gift', plan_profit: 'fa-arrow-up-right-dots', plan_invest: 'fa-sack-dollar', invite_bonus: 'fa-users', nft_purchase: 'fa-gem', nft_profit: 'fa-hand-holding-usd' };
                     
-                    const isFiatTx = tx.type === 'deposit' && (tx.details?.network === 'easypaisa' || tx.details?.network === 'jazzcash') || (tx.type === 'withdrawal' && (tx.details?.network === 'easypaisa' || tx.details?.network === 'jazzcash'));
-                    
                     let amountDisplay;
                     let typeText = tx.type.replace(/_/g, ' ').replace('plan', 'plan').replace('invest', 'purchase');
                     
-                    if (isFiatTx && tx.details?.pkrAmount) {
-                        const sign = ['withdrawal', 'nft_purchase', 'plan_invest'].includes(tx.type) ? '-' : '+';
-                        amountDisplay = `${sign}PKR ${Math.round(tx.details.pkrAmount).toLocaleString()}`;
-                        typeText = `${tx.details.network} ${typeText}`;
-                    } else {
-                        const sign = ['withdrawal', 'plan_invest', 'nft_purchase'].includes(tx.type) ? '-' : '+';
-                        amountDisplay = `${sign}$${Number(tx.amount).toFixed(4)}`;
-                    }
+                    const sign = ['withdrawal', 'nft_purchase', 'plan_invest'].includes(tx.type) ? '-' : '+';
+                    amountDisplay = `${sign}PKR ${Math.round(tx.amount).toLocaleString()}`;
 
                     // Status display text
                     let statusDisplay = '';
@@ -2231,22 +2141,12 @@
                 this.state.ui.rechargeForm.addEventListener('submit', (e) => this.handleRecharge(e));
                 this.state.ui.withdrawalForm.addEventListener('submit', (e) => this.handleWithdraw(e));
                 
-                // Plan Purchase
+                // Plan Purchase - MODIFIED: Direct purchase
                 this.state.ui.marketingPlansContainer.addEventListener('click', e => {
                     const btn = e.target.closest('.btn-purchase-plan');
-                    if (btn) this.openPlanPurchaseModal(btn.dataset.planId);
+                    if (btn) this.handleDirectPlanPurchase(btn.dataset.planId);
                 });
-                this.state.ui.planPurchaseForm.addEventListener('submit', e => this.handlePlanPurchase(e));
                 this.state.ui.claimPlanProfitBtn.addEventListener('click', e => this.handleClaimPlanProfit(e));
-                // NEW: Upgrade Plan Button Handler
-                this.state.ui.upgradePlanBtn.addEventListener('click', e => {
-                    const plansPanel = this.state.ui.marketingPlansPanel;
-                    plansPanel.scrollIntoView({ behavior: 'smooth' });
-                    // Optionally highlight the plans panel
-                    plansPanel.style.border = '3px solid var(--tertiary-accent)';
-                    setTimeout(() => plansPanel.style.border = '1px solid var(--surface-border)', 1500);
-                });
-
 
                 // Buttons and Inputs
                 this.state.ui.changePasswordForm.addEventListener('submit', e => this.handleChangePassword(e));
@@ -2361,15 +2261,15 @@
                     
                     await this.db.ref('users/' + user.uid).set({
                         username, email, uid: user.uid, referralCode, referredBy: refCode || null,
-                        usd_balance: 0, 
+                        pkr_balance: 0, 
                         balance_on_hold: 0,
                         unclaimed_invite_bonus: 0, active_referrals_count: 0,
                         plans: { 
-                            totalInvestmentUSD: 0, 
+                            totalInvestmentPKR: 0, 
                             lastProfitClaimTimestamp: 0, 
                             firstInvestmentProcessed: false, // <-- GATES INVITATION BONUS EARNING
-                            totalProfitGeneratedUSD: 0,
-                            hasPlan20Pro: false 
+                            totalProfitGeneratedPKR: 0,
+                            active_plan: null
                         }, 
                         nfts: {},
                         ancestry: ancestry,
@@ -2440,15 +2340,12 @@
                 }
                 
                 this.setButtonLoading(btn, true); 
-                
-                const usdEquivalent = pkrAmount / this.config.PKR_TO_USD_RATE;
 
                 try { 
                     await this.db.ref('recharge_requests').push({ 
                         userId: this.state.currentUser.uid, 
                         userEmail: this.state.currentUser.email, 
                         pkrAmount: pkrAmount,
-                        usdEquivalent: usdEquivalent,
                         network, 
                         txId, 
                         senderAccount,
@@ -2457,7 +2354,7 @@
                     }); 
 
                     // Log transaction with pending status for history view
-                    await this.logTransaction('deposit', usdEquivalent, { network, txId, senderAccount, pkrAmount, status: 'pending' }); 
+                    await this.logTransaction('deposit', pkrAmount, { network, txId, senderAccount, status: 'pending' }); 
                     
                     this.showToast(`Recharge request for PKR ${pkrAmount.toLocaleString()} submitted! Admin will process it shortly.`, 'success'); 
                     this.state.ui.rechargeForm.reset(); 
@@ -2485,12 +2382,11 @@
                     return this.showToast('Account Number must be 11 digits.', 'danger'); 
                 }
 
-                const usdAmount = pkrAmount / this.config.PKR_TO_USD_RATE;
-                const fee = usdAmount * this.config.WITHDRAWAL_FEE_PERCENT;
-                const netUsdWithdrawal = usdAmount + fee; // The amount to deduct from balance
+                const fee = pkrAmount * this.config.WITHDRAWAL_FEE_PERCENT;
+                const netPkrWithdrawal = pkrAmount + fee; // The amount to deduct from balance
 
-                if (this.state.userData.usd_balance < netUsdWithdrawal) {
-                    return this.showToast(`Insufficient balance. Required USD: $${netUsdWithdrawal.toFixed(2)}.`, 'danger'); 
+                if (this.state.userData.pkr_balance < netPkrWithdrawal) {
+                    return this.showToast(`Insufficient balance. Required PKR: ${netPkrWithdrawal.toLocaleString()}.`, 'danger'); 
                 }
                 
                 this.setButtonLoading(btn, true); 
@@ -2498,15 +2394,14 @@
                 try { 
                     // Move funds to balance_on_hold immediately
                     await this.state.userRef.update({ 
-                        usd_balance: firebase.database.ServerValue.increment(-netUsdWithdrawal), 
-                        balance_on_hold: firebase.database.ServerValue.increment(netUsdWithdrawal) 
+                        pkr_balance: firebase.database.ServerValue.increment(-netPkrWithdrawal), 
+                        balance_on_hold: firebase.database.ServerValue.increment(netPkrWithdrawal) 
                     }); 
                     
                     await this.db.ref('withdrawal_requests').push({ 
                         userId: this.state.currentUser.uid, 
                         userEmail: this.state.currentUser.email, 
                         pkrAmount: pkrAmount,
-                        usdAmount: usdAmount,
                         fee: fee, 
                         network, 
                         accountNumber, 
@@ -2516,11 +2411,10 @@
                     }); 
 
                     // Log transaction with pending status for history view
-                    await this.logTransaction('withdrawal', usdAmount, { 
+                    await this.logTransaction('withdrawal', pkrAmount, { 
                         network, 
                         accountNumber, 
                         accountHolderName,
-                        pkrAmount,
                         fee, 
                         status: 'pending' 
                     }); 
@@ -2532,160 +2426,135 @@
                     this.showToast(`Withdrawal failed: ${err.message}`, 'danger'); 
                     // Rollback on client-side failure (return funds from hold to balance)
                     await this.state.userRef.update({ 
-                        usd_balance: firebase.database.ServerValue.increment(netUsdWithdrawal), 
-                        balance_on_hold: firebase.database.ServerValue.increment(-netUsdWithdrawal) 
+                        pkr_balance: firebase.database.ServerValue.increment(netPkrWithdrawal), 
+                        balance_on_hold: firebase.database.ServerValue.increment(-netPkrWithdrawal) 
                     });
                 } finally { 
                     this.setButtonLoading(btn, false); 
                 } 
             },
             
-            // --- [5.1] Plan & Invitation Bonus Logic (Modified Daily Rate) ---
+            // --- [5.1] Plan & Invitation Bonus Logic (Modified for PKR) ---
             
             updatePlansUI() {
                 const container = this.state.ui.marketingPlansContainer;
                 container.innerHTML = ''; 
-                this.config.MARKETING_PLANS.forEach(plan => {
-                    const card = document.createElement('div');
-                    card.className = 'plan-card';
-                    const isPlan20 = plan.id === this.config.PLAN_20_ID;
-                    const iconColor = isPlan20 ? 'var(--danger-color)' : (plan.id % 2 === 0 ? 'var(--primary-accent)' : 'var(--secondary-accent)');
-                    const dailyRateText = isPlan20 ? '5%' : '0%';
-                    
-                    card.innerHTML = `
-                        <div class="plan-visual" style="box-shadow: 0 0 15px ${iconColor}; background: linear-gradient(45deg, ${iconColor}, var(--secondary-accent));">
-                            <i class="fas fa-layer-group"></i>
-                        </div>
-                        <h4>${plan.name}</h4>
-                        <p class="plan-price">PKR ${plan.pkrCost.toLocaleString()} | $${plan.usdCost.toFixed(2)} USD</p>
-                        <ul class="nft-details" style="border-left: 5px solid ${iconColor};">
-                            <li><span>Daily Earning</span><span>${dailyRateText}</span></li>
-                            <li><span>Duration</span><span>${plan.duration}</span></li>
-                        </ul>
-                        <button class="btn btn-purchase-plan" data-plan-id="${plan.id}" data-plan-usd-cost="${plan.usdCost}" style="${isPlan20 ? 'background: linear-gradient(45deg, var(--danger-color), #f87171); border-radius: 14px;' : 'border-radius: 14px;'}">
-                            <span class="btn-text">Purchase Plan</span>
-                        </button>
-                    `;
-                    container.appendChild(card);
-                });
+                
+                // Basic Plan
+                const basicCard = document.createElement('div');
+                basicCard.className = 'plan-card';
+                basicCard.innerHTML = `
+                    <div class="plan-visual" style="box-shadow: 0 0 15px var(--primary-accent); background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h4>Basic Plan</h4>
+                    <p class="plan-price">PKR ${this.config.BASIC_PLAN_COST.toLocaleString()}</p>
+                    <ul class="nft-details" style="border-left: 5px solid var(--primary-accent);">
+                        <li><span>Daily Earning</span><span>0%</span></li>
+                        <li><span>Invitation Rewards</span><span>Yes</span></li>
+                        <li><span>Duration</span><span>Lifetime</span></li>
+                    </ul>
+                    <button class="btn btn-purchase-plan" data-plan-id="basic" data-plan-cost="${this.config.BASIC_PLAN_COST}" style="border-radius: 14px;">
+                        <span class="btn-text">Purchase Plan</span>
+                    </button>
+                `;
+                container.appendChild(basicCard);
+                
+                // Pro Plan
+                const proCard = document.createElement('div');
+                proCard.className = 'plan-card';
+                proCard.innerHTML = `
+                    <div class="plan-visual" style="box-shadow: 0 0 15px var(--danger-color); background: linear-gradient(45deg, var(--danger-color), #f87171);">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h4>Pro Earning Plan</h4>
+                    <p class="plan-price">PKR ${this.config.PRO_PLAN_COST.toLocaleString()}</p>
+                    <ul class="nft-details" style="border-left: 5px solid var(--danger-color);">
+                        <li><span>Daily Earning</span><span>1%</span></li>
+                        <li><span>Invitation Rewards</span><span>Yes</span></li>
+                        <li><span>Duration</span><span>Lifetime</span></li>
+                    </ul>
+                    <button class="btn btn-purchase-plan" data-plan-id="pro" data-plan-cost="${this.config.PRO_PLAN_COST}" style="background: linear-gradient(45deg, var(--danger-color), #f87171); border-radius: 14px;">
+                        <span class="btn-text">Purchase Plan</span>
+                    </button>
+                `;
+                container.appendChild(proCard);
             },
 
-            openPlanPurchaseModal(planId) {
-                const plan = this.config.MARKETING_PLANS.find(p => p.id == planId);
-                if (!plan) return this.showToast('Plan not found.', 'danger');
+            // NEW: Direct plan purchase
+            async handleDirectPlanPurchase(planId) {
+                const planCost = planId === 'basic' ? this.config.BASIC_PLAN_COST : this.config.PRO_PLAN_COST;
+                const planName = planId === 'basic' ? 'Basic Plan' : 'Pro Earning Plan';
                 
-                const usd_balance = this.state.userData.usd_balance || 0;
-                const pkr_balance = usd_balance * this.config.PKR_TO_USD_RATE;
+                const pkr_balance = this.state.userData.pkr_balance || 0;
 
-                // Pre-check for balance before showing modal
-                if (plan.usdCost > usd_balance) { 
-                    return this.showToast('Insufficient USD balance to purchase this plan. Please recharge.', 'danger');
+                // Pre-check for balance before purchase
+                if (planCost > pkr_balance) { 
+                    return this.showToast('Insufficient PKR balance to purchase this plan. Please recharge.', 'danger');
                 }
-                
-                this.state.ui.planModalTitle.textContent = `Confirm Purchase: ${plan.name}`;
-                this.state.ui.planModalName.textContent = plan.name;
-                
-                this.state.ui.planModalUsdBalance.textContent = `$${usd_balance.toFixed(2)}`;
-                this.state.ui.planModalPkrBalance.textContent = `PKR ${Math.round(pkr_balance).toLocaleString()}`; 
-                
-                this.state.ui.planCostDisplay.value = `PKR ${plan.pkrCost.toLocaleString()} / $${plan.usdCost.toFixed(2)} USD`;
-                this.state.ui.planPurchaseUsdCost.value = plan.usdCost;
-                this.state.ui.planPurchasePlanId.value = plan.id; // Store ID for logic
-
-                const hasActivePlan = (this.state.userData.plans?.totalInvestmentUSD || 0) > 0;
-                this.state.ui.confirmPlanPurchaseBtn.querySelector('.btn-text').textContent = hasActivePlan ? 'Confirm & Upgrade' : 'Confirm & Purchase';
-                this.showModal('plan-purchase-modal');
-            },
-            
-            async handlePlanPurchase(e) {
-                e.preventDefault();
-                const btn = e.target.querySelector('button');
-                const planId = parseInt(this.state.ui.planPurchasePlanId.value);
-                const amount = parseFloat(this.state.ui.planPurchaseUsdCost.value);
-                const plan = this.config.MARKETING_PLANS.find(p => p.id == planId);
-                
-                if (!plan || isNaN(amount) || amount <= 0) { return this.showToast('Invalid plan data.', 'danger'); }
-                if (amount > this.state.userData.usd_balance) { 
-                    this.showToast('Insufficient USD balance.', 'danger'); 
-                    this.setButtonLoading(btn, false);
-                    return;
-                }
-                
-                this.setButtonLoading(btn, true);
                 
                 try {
                     const plansData = this.state.userData.plans || {};
                     const isFirstInvestment = !(plansData.firstInvestmentProcessed); // For bonus gating
                     
                     const updates = {
-                        'usd_balance': firebase.database.ServerValue.increment(-amount), 
-                        'plans/totalInvestmentUSD': firebase.database.ServerValue.increment(amount),
-                        // Reset claim time to now on any new investment/upgrade
-                        'plans/lastProfitClaimTimestamp': firebase.database.ServerValue.TIMESTAMP 
+                        'pkr_balance': firebase.database.ServerValue.increment(-planCost), 
+                        'plans/totalInvestmentPKR': firebase.database.ServerValue.increment(planCost),
+                        'plans/lastProfitClaimTimestamp': firebase.database.ServerValue.TIMESTAMP,
+                        'active_plan': planName
                     };
-
-                    // Check if the purchased plan is Plan 20 Pro and update the flag
-                    if(planId === this.config.PLAN_20_ID) {
-                        updates['plans/hasPlan20Pro'] = true;
-                    } else if (plansData.hasPlan20Pro) {
-                         // If a user buys a lower plan after Plan 20, they lose the 5% override
-                         updates['plans/hasPlan20Pro'] = false;
-                    }
 
                     await this.state.userRef.update(updates);
                     
                     // Must be called AFTER the investment is successfully processed
                     if (isFirstInvestment) { 
                         // **This is the logic that gates the invitation bonus earning**
-                        await this.processFirstInvestmentAndReferrals(amount); 
+                        await this.processFirstInvestmentAndReferrals(planCost); 
                     }
                     
-                    await this.logTransaction('plan_invest', amount, { reason: `Purchased ${plan.name} Plan`, status: 'approved' });
-                    this.showToast(`Purchased ${plan.name} Plan for $${amount.toFixed(2)}! Earning is now active!`, 'success');
-                    this.hideModal('plan-purchase-modal');
+                    await this.logTransaction('plan_invest', planCost, { reason: `Purchased ${planName}`, status: 'approved' });
+                    this.showToast(`Successfully purchased ${planName} for PKR ${planCost.toLocaleString()}!`, 'success');
                 } catch (error) { 
                     this.showToast(`Error: ${error.message}`, 'danger');
-                } finally { 
-                    this.setButtonLoading(btn, false); 
                 }
             },
             
-            // MODIFIED: Only Plan 20 Pro (5%) earns daily profit, all others are 0%
+            // MODIFIED: Only Pro Plan earns daily profit (1%), Basic Plan has 0%
             getEffectiveDailyRate() {
-                const planData = this.state.userData?.plans;
+                const activePlan = this.state.userData?.active_plan;
                 
-                if (!planData || planData.totalInvestmentUSD <= 0) {
+                if (!activePlan) {
                     return 0;
                 }
 
-                // Special case: Plan 20 Pro gives 5% unconditionally
-                if (planData.hasPlan20Pro) {
-                    return this.config.PLAN_DAILY_RATE_PRO_PERCENT; // 0.05
+                // Pro Plan gives 1% daily
+                if (activePlan === 'Pro Earning Plan') {
+                    return this.config.PRO_PLAN_DAILY_RATE; // 0.01
                 }
 
-                // All other plans have a 0% non-working rate
+                // Basic Plan has 0% earning
                 return 0; 
             },
             
             async handleClaimPlanProfit(e) {
                 const btn = e.currentTarget;
-                const profitUSD = this.calculatePlanProfit(); 
+                const profitPKR = this.calculatePlanProfit(); 
                 
-                if (profitUSD < this.config.MINIMUM_PROFIT_CLAIM_USD) {
+                if (profitPKR < this.config.MINIMUM_PROFIT_CLAIM) {
                     return this.showToast("Profit is too low to claim.", "info");
                 }
                 this.setButtonLoading(btn, true);
                 try {
                     await this.state.userRef.transaction(data => {
                         if (data && data.plans) {
-                            data.usd_balance = (data.usd_balance || 0) + profitUSD; 
+                            data.pkr_balance = (data.pkr_balance || 0) + profitPKR; 
                             data.plans.lastProfitClaimTimestamp = firebase.database.ServerValue.TIMESTAMP;
-                            data.plans.totalProfitGeneratedUSD = (data.plans.totalProfitGeneratedUSD || 0) + profitUSD;
+                            data.plans.totalProfitGeneratedPKR = (data.plans.totalProfitGeneratedPKR || 0) + profitPKR;
                         }
                         return data;
                     });
-                    await this.logTransaction('plan_profit', profitUSD, { status: 'approved' }); // Plan profit is instantly approved
-                    this.showToast(`Claimed $${profitUSD.toFixed(6)} USD!`, 'success');
+                    await this.logTransaction('plan_profit', profitPKR, { status: 'approved' });
+                    this.showToast(`Claimed PKR ${profitPKR.toLocaleString()}!`, 'success');
                 } catch(error) {
                     this.showToast(`Error: ${error.message}`, 'danger');
                 } finally {
@@ -2694,7 +2563,7 @@
             },
 
             calculatePlanProfit(planData = this.state.userData?.plans) {
-                if (!planData?.totalInvestmentUSD || !planData.lastProfitClaimTimestamp) return 0;
+                if (!planData?.totalInvestmentPKR || !planData.lastProfitClaimTimestamp) return 0;
                 
                 const effectiveDailyRate = this.getEffectiveDailyRate();
                 if (effectiveDailyRate === 0) return 0; // User is not in an earning state
@@ -2702,41 +2571,39 @@
                 const elapsedMs = Date.now() - planData.lastProfitClaimTimestamp;
                 if (elapsedMs <= 0) return 0;
                 
-                const potentialProfitUSD = (elapsedMs / 86400000) * (planData.totalInvestmentUSD * effectiveDailyRate);
+                const potentialProfitPKR = (elapsedMs / 86400000) * (planData.totalInvestmentPKR * effectiveDailyRate);
                 
-                return potentialProfitUSD;
+                return potentialProfitPKR;
             },
 
             updatePlanUI() {
                 if(this.state.planProfitInterval) clearInterval(this.state.planProfitInterval);
                 const planData = this.state.userData?.plans;
+                const activePlan = this.state.userData?.active_plan;
                 
-                if (planData && planData.totalInvestmentUSD > 0) {
+                if (activePlan) {
                     this.state.ui.activePlanStatus.style.display = 'block';
                     
-                    const investment = planData.totalInvestmentUSD;
+                    const investment = planData.totalInvestmentPKR;
                     const effectiveDailyRate = this.getEffectiveDailyRate();
 
                     let rateText;
                     let dailyProfitValue = investment * effectiveDailyRate;
 
-                    if (effectiveDailyRate === this.config.PLAN_DAILY_RATE_PRO_PERCENT) {
-                        rateText = `$${dailyProfitValue.toFixed(4)} USD (5% Pro)`;
+                    if (effectiveDailyRate === this.config.PRO_PLAN_DAILY_RATE) {
+                        rateText = `PKR ${dailyProfitValue.toLocaleString()} (1% Daily)`;
                     } else {
-                        // All other plans have 0% daily earning
-                        rateText = `$0.00 USD (0%)`;
+                        // Basic Plan has 0% daily earning
+                        rateText = `PKR 0 (0%)`;
                     }
 
                     // Update UI elements
-                    this.state.ui.planInvestmentValue.textContent = `$${investment.toFixed(2)}`;
+                    this.state.ui.planInvestmentValue.textContent = `PKR ${investment.toLocaleString()}`;
                     this.state.ui.planProfitRate.textContent = rateText; 
-                    
-                    // Hide/remove the irrelevant 'Active Refs for 3%' UI if it existed
-                    // Note: The template was cleaned up, this only ensures the correct rateText is shown
 
                     this.state.planProfitInterval = setInterval(() => {
                         const accumulatedProfit = this.calculatePlanProfit(); 
-                        this.state.ui.planAccumulatedProfit.textContent = `$${accumulatedProfit.toFixed(8)} USD`;
+                        this.state.ui.planAccumulatedProfit.textContent = `PKR ${accumulatedProfit.toLocaleString()}`;
                         this.state.ui.claimPlanProfitBtn.disabled = accumulatedProfit < dailyProfitValue; // Only allow claim after 1 day's profit is generated
                         this.state.ui.claimPlanProfitBtn.querySelector('.btn-text').innerHTML = `<i class="fas fa-hand-holding-dollar"></i> Claim Profit`;
                         
@@ -2751,18 +2618,18 @@
                 }
             },
 
-            // --- [5.2] Ranking Logic (Kept as is) ---
+            // --- [5.2] Ranking Logic (Modified for PKR) ---
             calculateUserNetWorth(userData) {
-                const usdBalance = userData.usd_balance || 0;
-                const planInvestment = userData.plans?.totalInvestmentUSD || 0;
-                const planProfit = userData.plans?.totalProfitGeneratedUSD || 0;
+                const pkrBalance = userData.pkr_balance || 0;
+                const planInvestment = userData.plans?.totalInvestmentPKR || 0;
+                const planProfit = userData.plans?.totalProfitGeneratedPKR || 0;
                 let nftValue = 0;
                 if (userData.nfts) {
                     Object.values(userData.nfts).forEach(nft => {
                         nftValue += (nft.investment || 0) + (nft.totalProfitClaimed || 0);
                     });
                 }
-                const netWorth = usdBalance + planInvestment + planProfit + nftValue;
+                const netWorth = pkrBalance + planInvestment + planProfit + nftValue;
                 return netWorth;
             },
             
@@ -2807,7 +2674,7 @@
                             <div class="username">${usernameDisplay} ${isCurrentUser ? '(You)' : ''}</div>
                             <div class="uid">${user.uid.slice(0, 8)}...</div>
                         </div>
-                        <div class="net-worth" style="width: 45%;">$${user.netWorth.toFixed(2)}</div>
+                        <div class="net-worth" style="width: 45%;">PKR ${user.netWorth.toLocaleString()}</div>
                     `;
                     rankingList.appendChild(item);
                 });
@@ -2815,13 +2682,13 @@
                 if (this.state.userData && currentUserUid) {
                     const myRankIndex = rankedUsers.findIndex(u => u.uid === currentUserUid);
                     const myNetWorth = this.calculateUserNetWorth(this.state.userData);
-                    this.state.ui.myNetWorthValue.textContent = `$${myNetWorth.toFixed(2)}`;
+                    this.state.ui.myNetWorthValue.textContent = `PKR ${myNetWorth.toLocaleString()}`;
                     this.state.ui.myGlobalRankValue.textContent = myRankIndex !== -1 ? `${myRankIndex + 1} / ${rankedUsers.length}` : 'N/A';
                     this.state.ui.myGlobalRankValue.style.color = myRankIndex !== -1 && myRankIndex < 10 ? 'var(--tertiary-accent)' : 'var(--warning-color)';
                 }
             },
             
-            // --- [5.3] Profile, Tasks, Rewards & Network Logic (Kept as is) ---
+            // --- [5.3] Profile, Tasks, Rewards & Network Logic ---
             
             async handleChangePassword(e) { e.preventDefault(); const btn = e.target.querySelector('button'); this.setButtonLoading(btn, true); const currentPassword = document.getElementById('current-password').value; const newPassword = document.getElementById('new-password').value; if (newPassword.length < 6) { this.showToast('New password must be at least 6 characters.', 'danger'); this.setButtonLoading(btn, false); return; } try { const user = this.state.currentUser; await user.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, currentPassword)); await user.updatePassword(newPassword); this.showToast('Password changed successfully!', 'success'); this.state.ui.changePasswordForm.reset(); this.showPage('profile-page'); } catch (error) { this.showToast(error.message, 'danger'); } finally { this.setButtonLoading(btn, false); } },
             // Log transaction with status detail
@@ -2830,7 +2697,7 @@
             // MODIFIED: Function to update the referral bonus UI AND render the dynamic network cards
             updateNetworkUI() {
                 const unclaimedBonus = this.state.userData.unclaimed_invite_bonus || 0;
-                this.state.ui.unclaimedBonusAmount.textContent = `$${unclaimedBonus.toFixed(4)}`;
+                this.state.ui.unclaimedBonusAmount.textContent = `PKR ${unclaimedBonus.toLocaleString()}`;
                 this.state.ui.collectBonusBtn.disabled = unclaimedBonus <= 0;
                 
                 this.renderNetworkDiagram();
@@ -2862,7 +2729,7 @@
                     card.addEventListener('click', () => this.showBlockListModal(i));
 
                     card.innerHTML = `
-                        <h4><i class="fas fa-cubes" style="margin-right: 8px;"></i> Block Level ${i} (${levelType})</h4>
+                        <h4><i class="fas fa-cubes" style="margin-right: 8px;"></i> Network Level ${i} (${levelType})</h4>
                         <div class="stat-info">
                             <div>
                                 <div class="stat-value" style="color: ${count > 0 ? 'var(--primary-accent)' : 'var(--text-secondary)'}">${count}</div>
@@ -2884,13 +2751,13 @@
                 const modalTitle = this.state.ui.blockListModalTitle;
                 const modalBody = this.state.ui.blockListModalBody;
                 const memberData = this.state.userData.referrals_data?.[`level_${level}`];
-                const levelType = level === 1 ? 'Direct Block' : `Indirect Block L${level-1}`;
+                const levelType = level === 1 ? 'Direct Network' : `Indirect Network L${level-1}`;
                 
                 modalTitle.textContent = `${levelType} Members (Level ${level})`;
                 modalBody.innerHTML = '';
                 
                 if (!memberData || Object.keys(memberData).length === 0) {
-                    modalBody.innerHTML = '<p class="info-text">No members found at this block level yet. Invite new users to grow your network!</p>';
+                    modalBody.innerHTML = '<p class="info-text">No members found at this network level yet. Invite new users to grow your network!</p>';
                     this.showModal('block-list-modal');
                     return;
                 }
@@ -2925,12 +2792,12 @@
                 this.setButtonLoading(btn, true);
                 try {
                     await this.state.userRef.update({
-                        usd_balance: firebase.database.ServerValue.increment(unclaimedBonus),
+                        pkr_balance: firebase.database.ServerValue.increment(unclaimedBonus),
                         unclaimed_invite_bonus: 0
                     });
                     // Log transaction with approved status
-                    await this.logTransaction('invite_bonus', unclaimedBonus, { reason: 'Block Commission', status: 'approved' }); 
-                    this.showToast(`Collected $${unclaimedBonus.toFixed(4)} from your network!`, 'success');
+                    await this.logTransaction('invite_bonus', unclaimedBonus, { reason: 'Network Commission', status: 'approved' }); 
+                    this.showToast(`Collected PKR ${unclaimedBonus.toLocaleString()} from your network!`, 'success');
                 } catch (error) {
                     this.showToast(`Error: ${error.message}`, 'danger');
                 } finally {
@@ -2938,13 +2805,13 @@
                 }
             },
             
-            // UPDATED FREE MINING UI LOGIC (Simplified since gate is gone)
+            // UPDATED FREE MINING UI LOGIC
             updateFreeMiningUI() {
                 const activeReferrals = this.state.userData.active_referrals_count || 0;
                 this.state.ui.freeMiningProgress.textContent = `${activeReferrals} / ${this.config.FREE_PLAN_REQUIRED_REFERRALS}`;
             },
             
-            // --- [5.4] NFT Logic (Kept as is) ---
+            // --- [5.4] NFT Logic (Modified for PKR) ---
             
             canUserBuyNFT() {
                 return (this.state.userData.active_referrals_count || 0) >= this.config.NFT_REQUIRED_ACTIVE_REFERRALS;
@@ -2993,12 +2860,12 @@
                 }
 
                 if (isNaN(amount)) return this.showToast('Please enter a valid amount.', 'danger');
-                if (amount < min || amount > max) return this.showToast(`Amount must be between $${min} and $${max}.`, 'danger');
-                if (amount > (this.state.userData.usd_balance || 0)) return this.showToast('Insufficient USD balance.', 'danger');
+                if (amount < min || amount > max) return this.showToast(`Amount must be between PKR ${min.toLocaleString()} and PKR ${max.toLocaleString()}.`, 'danger');
+                if (amount > (this.state.userData.pkr_balance || 0)) return this.showToast('Insufficient PKR balance.', 'danger');
                 
                 this.setButtonLoading(btn, true);
                 try {
-                    await this.state.userRef.child('usd_balance').set(firebase.database.ServerValue.increment(-amount));
+                    await this.state.userRef.child('pkr_balance').set(firebase.database.ServerValue.increment(-amount));
                     await this.state.userRef.child('nfts').push({
                         nftId: nftId,
                         investment: amount,
@@ -3043,12 +2910,12 @@
                     card.innerHTML = `
                         <div class="my-nft-card-header">
                             <h4>${nftNames[nft.nftId] || 'NFT'}</h4>
-                            <span class="investment" style="color: ${cardColors[nft.nftId]}">$${nft.investment.toFixed(2)}</span>
+                            <span class="investment" style="color: ${cardColors[nft.nftId]}">PKR ${nft.investment.toLocaleString()}</span>
                         </div>
                         <div class="nft-profit-details">
                             <div>
                                 <div class="label">Total Claimed</div>
-                                <div class="value" id="claimed-${key}">$${nft.totalProfitClaimed.toFixed(4)}</div>
+                                <div class="value" id="claimed-${key}">PKR ${nft.totalProfitClaimed.toLocaleString()}</div>
                             </div>
                              <div>
                                 <div class="label">Claimable Now</div>
@@ -3092,7 +2959,7 @@
                 const totalReturnCap = nft.investment * this.config.NFT_TOTAL_RETURN_PERCENT;
                 
                 if (nft.totalProfitClaimed >= totalReturnCap) {
-                    claimableEl.textContent = '$0.0000';
+                    claimableEl.textContent = 'PKR 0';
                     timerEl.textContent = 'Completed (300% Return Achieved)';
                     timerEl.style.color = 'var(--success-color)';
                     claimBtn.disabled = true;
@@ -3111,7 +2978,7 @@
                 claimableAmount = Math.min(claimableAmount, dailyProfit);
                 claimableAmount = Math.min(claimableAmount, totalReturnCap - nft.totalProfitClaimed);
                 
-                claimableEl.textContent = `$${claimableAmount.toFixed(4)}`;
+                claimableEl.textContent = `PKR ${claimableAmount.toLocaleString()}`;
                 const progressPercent = (nft.totalProfitClaimed / totalReturnCap) * 100;
                 progressEl.style.width = `${progressPercent}%`;
 
@@ -3160,7 +3027,7 @@
                     }
                     
                     const updates = {};
-                    updates[`/users/${this.state.currentUser.uid}/usd_balance`] = firebase.database.ServerValue.increment(profitToClaim);
+                    updates[`/users/${this.state.currentUser.uid}/pkr_balance`] = firebase.database.ServerValue.increment(profitToClaim);
                     updates[`/users/${this.state.currentUser.uid}/nfts/${nftKey}/totalProfitClaimed`] = firebase.database.ServerValue.increment(profitToClaim);
                     updates[`/users/${this.state.currentUser.uid}/nfts/${nftKey}/lastClaimTimestamp`] = firebase.database.ServerValue.TIMESTAMP;
                     
@@ -3168,7 +3035,7 @@
                     // Log NFT profit with approved status
                     await this.logTransaction('nft_profit', profitToClaim, { reason: `${nft.nftId} NFT Earning`, status: 'approved' });
                     
-                    this.showToast(`Claimed $${profitToClaim.toFixed(4)}!`, 'success');
+                    this.showToast(`Claimed PKR ${profitToClaim.toLocaleString()}!`, 'success');
 
                 } catch (error) {
                     this.showToast(`Claim failed: ${error.message}`, 'danger');
@@ -3177,7 +3044,7 @@
                 }
             },
 
-            // --- [6] DATA LISTENERS (Kept as is) ---
+            // --- [6] DATA LISTENERS ---
             listenToUserData() { 
                 if (!this.state.currentUser || this.state.userRef) return; 
                 this.state.userRef = this.db.ref('users/' + this.state.currentUser.uid); 
@@ -3208,7 +3075,7 @@
                 this.state.txRef = null; 
             },
 
-            // --- [7] HELPERS (Kept as is) ---
+            // --- [7] HELPERS ---
             copyToClipboard(textToCopy, elementToUpdate = null) { if (!textToCopy) return; navigator.clipboard.writeText(textToCopy).then(() => { this.showToast('Copied!', 'success'); if (elementToUpdate) { const originalHTML = elementToUpdate.innerHTML; if(elementToUpdate.classList.contains('address-box')) { const icon = elementToUpdate.querySelector('.copy-btn i'); const originalIconClass = icon.className; elementToUpdate.classList.add('copied'); icon.className = 'fas fa-check'; setTimeout(() => { elementToUpdate.classList.remove('copied'); icon.className = originalIconClass; }, 2500); } else { elementToUpdate.innerHTML = `<span class="btn-text"><i class="fas fa-check"></i> Copied!</span>`; elementToUpdate.disabled = true; setTimeout(() => { elementToUpdate.innerHTML = originalHTML; elementToUpdate.disabled = false; }, 2000); } } }).catch(() => this.showToast('Failed to copy.', 'danger')); },
             initDraggableFAB() { const fab = this.state.ui.telegramFab; if (!fab) return; let isDragging = false, hasMoved = false, offsetX, offsetY; const getCoords = e => e.touches ? e.touches[0] : e; const start = e => { isDragging = true; hasMoved = false; fab.classList.add('dragging'); const c = getCoords(e); offsetX = c.clientX - fab.offsetLeft; offsetY = c.clientY - fab.offsetTop; document.addEventListener('mousemove', move); document.addEventListener('touchmove', move, { passive: false }); document.addEventListener('mouseup', end); document.addEventListener('touchend', end); }; const move = e => { if (!isDragging) return; e.preventDefault(); hasMoved = true; const c = getCoords(e); fab.style.left = `${Math.max(0, Math.min(c.clientX - offsetX, window.innerWidth - fab.offsetWidth))}px`; fab.style.top = `${Math.max(0, Math.min(c.clientY - offsetY, window.innerHeight - fab.offsetHeight))}px`; fab.style.right = 'auto'; fab.style.bottom = 'auto'; }; const end = () => { isDragging = false; fab.classList.remove('dragging'); document.removeEventListener('mousemove', move); document.removeEventListener('touchmove', move); document.removeEventListener('mouseup', end); document.removeEventListener('touchend', end); }; fab.addEventListener('mousedown', start); fab.addEventListener('touchstart', start); fab.addEventListener('click', e => { if (hasMoved) e.preventDefault(); }); },
             maskEmail(email) {
